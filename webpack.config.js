@@ -3,15 +3,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = env => ({
+const generateFilename = (ext, env) => env.development ? `[name].bundle.${ext}` : `[name].[contenthash].bundle.${ext}`;
+
+module.exports = (env, argv) => ({
     mode: env.development ? "development" : "production",
+    target: "web",
     context: path.resolve(__dirname, "src"),
     entry: {
         app: ["core-js/stable", "regenerator-runtime/runtime", "./app.js"]
     },
     output: {
-        filename: "[name].[contenthash].bundle.js",
-        path: path.resolve(__dirname, "bundle")
+        filename: generateFilename("js", env),
+        path: path.resolve(__dirname, "bundle"),
+        clean: true
     },
     resolve: {
         extensions: [".js", "json"],
@@ -20,6 +24,13 @@ module.exports = env => ({
             "@/core": path.resolve(__dirname, "src", "core") 
         }
     },
+    devServer: {
+        port: 5000,
+        open: true,
+        hot: true,
+        watchFiles: "./"
+    },
+    devtool: env.development && "source-map",
     module: {
         rules: [
             {
@@ -51,7 +62,7 @@ module.exports = env => ({
         ]
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].bundle.css"
+            filename: generateFilename("css", env)
         })
     ]
 });
