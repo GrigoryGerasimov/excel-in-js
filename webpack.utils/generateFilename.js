@@ -1,4 +1,4 @@
-const generateFilename = (ext, env) => env?.development ? `[name].bundle.${ext}` : `[name].[contenthash].bundle.${ext}`;
+const generateFilename = (ext, env) => env?.development ? `[id].bundle.${ext}` : `[id].[contenthash].bundle.${ext}`;
 
 module.exports = {
     generateFilename
