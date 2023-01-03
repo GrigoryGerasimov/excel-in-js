@@ -1,4 +1,5 @@
 @import "../scss.utils/variables";
+@import "../scss.utils/mixins";
 
 .app__header {
     height: $header-height;
@@ -6,20 +7,20 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px 20px 0;
+    padding: $segment-inner-padding;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     &__name {
-        font-size: $txt-regular-size;
+        height: 30px;
+        font-size: $txt-larger-size;
         text-align: center;
         appearance: none;
         outline: none;
         border: none;
-        border-bottom: $border-basic-style;
-        border-radius: 5%;
-        &:hover {
+        &:hover, &:focus {
             border: $border-basic-style;
+            border-radius: 5%;
         }
     }
     &__btn-icon-group {
@@ -29,9 +30,6 @@
         justify-content: center;
     }
     &__btn-icon {
-        width: 25px;
-        height: 25px;
-        margin-left: 15px;
-        cursor: pointer;
+        @include btn-icon(rgba(0, 0, 0, 1));
     }
 }

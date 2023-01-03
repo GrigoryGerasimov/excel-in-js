@@ -1,0 +1,9 @@
+@mixin btn-icon($icon-color) {
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    cursor: pointer;
+    &:active, &:hover {
+        color: $icon-color;
+    }
+}

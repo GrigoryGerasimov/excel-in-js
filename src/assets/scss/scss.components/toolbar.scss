@@ -1,14 +1,23 @@
 @import "../scss.utils/variables";
+@import "../scss.utils/mixins";
 
 .app__toolbar {
+    width: inherit;
+    height: $toolbar-height;
     position: absolute;
     top: $header-height;
     left: 0;
     right: 0;
+    padding: $segment-inner-padding;
+    border-top: $border-basic-style;
+    border-bottom: $border-basic-style;
     &__btn-icon-group {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-evenly;
+    }
+    &__btn-icon {
+        @include btn-icon(rgba(0, 0, 0, 1));
     }
 }
