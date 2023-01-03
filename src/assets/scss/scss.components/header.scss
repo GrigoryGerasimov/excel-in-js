@@ -1,0 +1,35 @@
+@import "../scss.utils/variables";
+@import "../scss.utils/mixins";
+
+.app__header {
+    height: $header-height;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: $segment-inner-padding;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    &__name {
+        height: 30px;
+        font-size: $txt-larger-size;
+        text-align: center;
+        appearance: none;
+        outline: none;
+        border: none;
+        &:hover, &:focus {
+            border: $border-basic-style;
+            border-radius: 5%;
+        }
+    }
+    &__btn-icon-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    &__btn-icon {
+        @include btn-icon(rgba(0, 0, 0, 1));
+    }
+}
