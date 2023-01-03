@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -7,7 +8,7 @@ const { generateFilename } = require("./webpack.utils/generateFilename");
 const { definePlugins } = require("./webpack.utils/definePlugins");
 
 module.exports = env => ({
-    mode: env.development ? "development" : "production",
+    mode: env?.development ? "development" : "production",
     target: "web",
     context: path.resolve(__dirname, "src"),
     entry: {
@@ -17,6 +18,10 @@ module.exports = env => ({
         filename: generateFilename("js", env),
         path: path.resolve(__dirname, "bundle"),
         clean: true
+    },
+    optimization: {
+        chunkIds: false,
+        nodeEnv: !env && "development"
     },
     resolve: {
         extensions: [".js", "json"],
@@ -29,9 +34,10 @@ module.exports = env => ({
         port: 5000,
         open: true,
         hot: true,
-        watchFiles: "./"
+        watchFiles: "./",
+        historyApiFallback: true
     },
-    devtool: env.development && "source-map",
+    devtool: env?.development && "source-map",
     module: {
         rules: [
             {
@@ -66,6 +72,9 @@ module.exports = env => ({
             }),
             new MiniCssExtractPlugin({
                 filename: generateFilename("css", env)
+            }),
+            new webpack.ids.DeterministicChunkIdsPlugin({
+                maxLength: 7
             })
         ],
         [new EslintWebpackPlugin()]
