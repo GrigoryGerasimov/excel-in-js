@@ -2,10 +2,11 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const EslintWebpackPlugin = require("eslint-webpack-plugin");
+const { generateFilename } = require("./webpack.utils/generateFilename");
+const { definePlugins } = require("./webpack.utils/definePlugins");
 
-const generateFilename = (ext, env) => env.development ? `[name].bundle.${ext}` : `[name].[contenthash].bundle.${ext}`;
-
-module.exports = (env, argv) => ({
+module.exports = env => ({
     mode: env.development ? "development" : "production",
     target: "web",
     context: path.resolve(__dirname, "src"),
@@ -21,7 +22,7 @@ module.exports = (env, argv) => ({
         extensions: [".js", "json"],
         alias: {
             "@": path.resolve(__dirname, "src"),
-            "@/core": path.resolve(__dirname, "src", "core") 
+            "@/core": path.resolve(__dirname, "src", "core")
         }
     },
     devServer: {
@@ -48,21 +49,25 @@ module.exports = (env, argv) => ({
             }
         ]
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "./app.html",
-            filename: "index.html"
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, "src/assets/favicon/Carlosjj-Microsoft-Office-2013-Excel.ico"),
-                    to: path.resolve(__dirname, "bundle")
-            }
-        ]
-        }),
-        new MiniCssExtractPlugin({
-            filename: generateFilename("css", env)
-        })
-    ]
+    plugins: definePlugins(
+        env,
+        [
+            new HtmlWebpackPlugin({
+                template: "./app.html",
+                filename: "index.html"
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.resolve(__dirname, "src/assets/favicon/Carlosjj-Microsoft-Office-2013-Excel.ico"),
+                        to: path.resolve(__dirname, "bundle")
+                    }
+                ]
+            }),
+            new MiniCssExtractPlugin({
+                filename: generateFilename("css", env)
+            })
+        ],
+        [new EslintWebpackPlugin()]
+    )
 });
