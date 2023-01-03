@@ -1,0 +1,34 @@
+@import "~normalize.css";
+
+@import "scss.utils/variables";
+@import "scss.utils/mixins";
+
+@import "scss.components/header.scss";
+@import "scss.components/toolbar.scss";
+@import "scss.components/formulabar.scss";
+@import "scss.components/tablebody.scss";
+@import "scss.components/footer.scss";
+
+//use sass map
+
+*, *+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Bahnschrift", sans-serif;
+    font-size: $txt-regular-size;
+    color: $txt-color;
+}
+
+.app-container {
+    width: 100%;
+    height: 700px;
+}
+
+.app {
+    width: inherit;
+    position: relative;
+}

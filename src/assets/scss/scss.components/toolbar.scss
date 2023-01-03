@@ -1,0 +1,14 @@
+@import "../scss.utils/variables";
+
+.app__toolbar {
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    right: 0;
+    &__btn-icon-group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+}
