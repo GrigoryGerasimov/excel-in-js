@@ -1,0 +1,33 @@
+@import "../../scss.utils/variables";
+@import "../../scss.utils/mixins";
+
+.dashboard-tablebody {
+    line-height: 45px;
+    &__row {
+        display: flex;
+        justify-content: space-between;
+        &:hover:not(:first-child) {
+            background-color: map.get($theme-color, "primary");
+            padding: map.get($inner-padding, "segment");
+            color: rgba(255, 255, 255, 1);
+            cursor: pointer;
+        }
+    }
+    &__head-cell {
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+        min-width: map.get($min-width, "colcell");
+        font-size: map.get($txt-size, "larger");
+    }
+    &__cell {
+        text-align: center;
+        min-width: map.get($min-width, "colcell");
+        font-size: map.get($txt-size, "larger");
+    }
+}
+
+.tablebody-wrapper {
+    width: inherit;
+    padding: map.get($inner-padding, "block");
+}

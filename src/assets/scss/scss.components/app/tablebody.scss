@@ -1,7 +1,5 @@
-@use "sass:map";
-
-@import "../scss.utils/variables";
-@import "../scss.utils/mixins";
+@import "../../scss.utils/variables";
+@import "../../scss.utils/mixins";
 
 .app-tablebody {
     position: absolute;

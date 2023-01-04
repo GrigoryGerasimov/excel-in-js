@@ -1,0 +1,40 @@
+@import "../../scss.utils/variables";
+@import "../../scss.utils/mixins";
+
+.dashboard-toolbar {
+    width: inherit;
+    margin-top: map.get($section-height, "dashboard-header");
+    background-color: map.get($theme-color, "primary");
+    &__create-block {
+        width: 200px;
+        height: 200px;
+        background-color: rgba(255, 255, 255);
+        padding: map.get($inner-padding, "segment");
+        text-align: center;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        border: none;
+        outline: none;
+        color: $txt-color;
+        &:active, &:hover {
+            color: map.get($theme-color, "primary");
+            font-weight: 700;
+            border: 5px solid map.get($theme-color, "primary");
+        }
+    }
+    &__create-icon {
+        @include btn-icon(map.get($theme-color, "primary"), 30px, 0);
+    }
+    &__create-title {
+        font-size: map.get($txt-size, "largest");
+        margin-top: 10px;
+    }
+}
+
+.toolbar-wrapper {
+    padding: map.get($inner-padding, "block");
+}

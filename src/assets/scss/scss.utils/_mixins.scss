@@ -1,7 +1,7 @@
-@mixin btn-icon($icon-color) {
-    width: 25px;
-    height: 25px;
-    margin-left: 15px;
+@mixin btn-icon($icon-color, $size: 25px, $margin: 15px) {
+    width: $size;
+    height: $size;
+    margin-left: $margin;
     cursor: pointer;
     &:active, &:hover {
         color: $icon-color;

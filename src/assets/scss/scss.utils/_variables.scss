@@ -1,23 +1,33 @@
 @use "sass:map";
 
+$theme-color: (
+    "primary": rgba(117, 97, 192, .75),
+    "secondary": rgba(139, 139, 139, .75),
+    "contrast": rgba(199, 199, 199, .75),
+    "default": rgba(0, 0, 0, .75)
+);
+
 $txt-color: rgba(0, 0, 0, .55);
 
 $txt-size: (
     "regular": 16px,
-    "larger": 20px
+    "larger": 20px,
+    "largest": 24px
 );
 
 $section-height: (
     "header": 50px,
     "toolbar": 45px,
     "formulabar": 50px,
-    "tablebody-row": 30px
+    "tablebody-row": 30px,
+    "dashboard-header": 100px
 );
 
 $border-basic-style: 1px solid rgba(110, 110, 110, .55);
 
 $inner-padding: (
     "segment": 10px 20px,
+    "block": 50px 100px,
     "cell": 0 20px
 );
 

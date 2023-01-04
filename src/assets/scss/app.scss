@@ -5,11 +5,11 @@
 @import "scss.utils/variables";
 @import "scss.utils/mixins";
 
-@import "scss.components/header.scss";
-@import "scss.components/toolbar.scss";
-@import "scss.components/formulabar.scss";
-@import "scss.components/tablebody.scss";
-@import "scss.components/footer.scss";
+@import "scss.components/app/header.scss";
+@import "scss.components/app/toolbar.scss";
+@import "scss.components/app/formulabar.scss";
+@import "scss.components/app/tablebody.scss";
+@import "scss.components/app/footer.scss";
 
 *, *+* {
     margin: 0;
