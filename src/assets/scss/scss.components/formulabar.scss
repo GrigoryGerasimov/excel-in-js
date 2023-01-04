@@ -1,33 +1,40 @@
+@use "sass:map";
+
 @import "../scss.utils/variables";
 @import "../scss.utils/mixins";
 
-.app__formulabar {
-    width: inherit;
-    height: $formulabar-height;
+.app-formulabar {
+    height: map.get($section-height, "formulabar");
     position: absolute;
-    top: $header-height + $toolbar-height;
+    top: calc(map.get($section-height, "header") + map.get($section-height, "toolbar"));
     left: 0;
     right: 0;
-    padding: $segment-inner-padding;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: baseline;
     &__formula-label {
+        height: 100%;
         font-style: oblique;
         font-size: 24px;
         opacity: 0.5;
-        min-width: $cell-min-width;
+        min-width: map.get($min-width, "cell");
         border-right: $border-basic-style;
+        text-align: center;
+        padding-top: calc(map.get($section-height, "formulabar") / 5);
     }
     &__formula-text {
         width: 100%;
         height: 100%;
-        padding: $segment-inner-padding;
-        font-size: $txt-regular-size;
+        font-size: map.get($txt-size, "regular");
         &:focus {
             border: none;
             outline: none;
         }
     }
+}
+
+.formulabar-wrapper {
+    height: inherit;
+    border-bottom: $border-basic-style;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
 }

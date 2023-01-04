@@ -1,13 +1,27 @@
-$txt-color: rgba(0, 0, 0, .55);
-$txt-regular-size: 16px;
-$txt-larger-size: 20px;
+@use "sass:map";
 
-$header-height: 50px;
-$toolbar-height: 45px;
-$formulabar-height: 50px;
+$txt-color: rgba(0, 0, 0, .55);
+
+$txt-size: (
+    "regular": 16px,
+    "larger": 20px
+);
+
+$section-height: (
+    "header": 50px,
+    "toolbar": 45px,
+    "formulabar": 50px,
+    "tablebody-row": 30px
+);
 
 $border-basic-style: 1px solid rgba(110, 110, 110, .55);
 
-$segment-inner-padding: 10px 20px 0;
+$inner-padding: (
+    "segment": 10px 20px,
+    "cell": 0 20px
+);
 
-$cell-min-width: 40px;
+$min-width: (
+    "cell": 70px,
+    "colcell": 200px
+);

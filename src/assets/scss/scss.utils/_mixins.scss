@@ -7,3 +7,13 @@
         color: $icon-color;
     }
 }
+
+@mixin table-cell($min-width, $border-style, $divider: 4) {
+    min-height: inherit;
+    height: inherit;
+    min-width: $min-width;
+    border-bottom: $border-style;
+    border-right: $border-style;
+    text-align: center;
+    padding-top: calc(map.get($section-height, "tablebody-row") / $divider);
+}

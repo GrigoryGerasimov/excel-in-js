@@ -1,19 +1,17 @@
+@use "sass:map";
+
 @import "../scss.utils/variables";
 @import "../scss.utils/mixins";
 
-.app__header {
-    height: $header-height;
+.app-header {
+    height: map.get($section-height, "header");
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    padding: $segment-inner-padding;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     &__name {
         height: 30px;
-        font-size: $txt-larger-size;
+        font-size: map.get($txt-size, "larger");
         text-align: center;
         appearance: none;
         outline: none;
@@ -32,4 +30,12 @@
     &__btn-icon {
         @include btn-icon(rgba(0, 0, 0, 1));
     }
+}
+
+.header-wrapper {
+    height: inherit;
+    padding: map.get($inner-padding, "segment");
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

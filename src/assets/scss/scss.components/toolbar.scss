@@ -1,16 +1,14 @@
+@use "sass:map";
+
 @import "../scss.utils/variables";
 @import "../scss.utils/mixins";
 
-.app__toolbar {
-    width: inherit;
-    height: $toolbar-height;
+.app-toolbar {
+    height: map.get($section-height, "toolbar");
     position: absolute;
-    top: $header-height;
+    top: map.get($section-height, "header");
     left: 0;
     right: 0;
-    padding: $segment-inner-padding;
-    border-top: $border-basic-style;
-    border-bottom: $border-basic-style;
     &__btn-icon-group {
         display: flex;
         flex-direction: row;
@@ -20,4 +18,11 @@
     &__btn-icon {
         @include btn-icon(rgba(0, 0, 0, 1));
     }
+}
+
+.toolbar-wrapper {
+    height: inherit;
+    padding: map.get($inner-padding, "segment");
+    border-top: $border-basic-style;
+    border-bottom: $border-basic-style;
 }
