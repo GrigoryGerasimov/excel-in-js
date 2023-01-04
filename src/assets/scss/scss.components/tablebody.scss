@@ -1,0 +1,37 @@
+@use "sass:map";
+
+@import "../scss.utils/variables";
+@import "../scss.utils/mixins";
+
+.app-tablebody {
+    position: absolute;
+    top: calc(map.get($section-height, "header") + map.get($section-height, "toolbar") + map.get($section-height, "formulabar"));
+    right: 0;
+    left: 0;
+    overflow-x: auto;
+    &__row {
+        min-height: 25px;
+        height: map.get($section-height, "tablebody-row");
+        display: flex;
+        flex-direction: row;
+    }
+    &__row-head {
+        min-height: inherit;
+        height: inherit;
+    }
+    &__cell {
+        @include table-cell(map.get($min-width, "cell"), $border-basic-style);
+    }
+    &__row-cell-cols {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    &__col {
+        @include table-cell(map.get($min-width, "colcell"), $border-basic-style);
+        &:focus, &:active {
+            border: 3px solid rgba(0, 0, 0, 1);
+            cursor: pointer;
+        }
+    }
+}
