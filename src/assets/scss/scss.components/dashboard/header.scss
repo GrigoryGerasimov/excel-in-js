@@ -1,0 +1,15 @@
+@import "../../scss.utils/variables";
+@import "../../scss.utils/mixins";
+
+.dashboard-header {
+    height: map.get($section-height, "dashboard-header");
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
