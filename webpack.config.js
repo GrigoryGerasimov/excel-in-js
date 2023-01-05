@@ -7,7 +7,36 @@ const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const { generateFilename } = require("./webpack.utils/generateFilename");
 const { definePlugins } = require("./webpack.utils/definePlugins");
 
-module.exports = env => ({
+const multipleStylesheetsBundlerConfig = (env, argv) => ({
+    mode: argv?.mode || "development",
+    context: path.resolve(__dirname, "src/assets/scss"),
+    entry: {
+        app: "./app.scss",
+        dashboard: "./dashboard.scss"
+    },
+    output: {
+        filename: "[name].[contenthash].bundle.js",
+        path: path.resolve(__dirname, "bundle")
+    },
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/gi,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            }
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": argv?.mode ? JSON.stringify(argv.mode) : "development"
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].bundle.css"
+        })
+    ]
+});
+
+const webpackMainConfig = (env, argv) => ({
     mode: env?.development ? "development" : "production",
     target: "web",
     context: path.resolve(__dirname, "src"),
@@ -27,7 +56,7 @@ module.exports = env => ({
         extensions: [".js", "json"],
         alias: {
             "@": path.resolve(__dirname, "src"),
-            "@/core": path.resolve(__dirname, "src", "core")
+            "@core": path.resolve(__dirname, "src", "core")
         }
     },
     devServer: {
@@ -80,3 +109,7 @@ module.exports = env => ({
         [new EslintWebpackPlugin()]
     )
 });
+
+module.exports = (env, argv) => {
+    return argv?.mode ? [webpackMainConfig(env, argv), multipleStylesheetsBundlerConfig(env, argv)] : webpackMainConfig(env, argv);
+};

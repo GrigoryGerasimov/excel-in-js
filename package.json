@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --env development",
+    "notserve": "webpack --mode=development",
     "build": "webpack --env production"
   },
   "repository": {
@@ -17,7 +18,7 @@
     "vanilla",
     "js"
   ],
-  "author": "Grigory Gerasimov",
+  "author": "Grigory Gerasimov <rehor.ger@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GrigoryGerasimov/excel-in-js/issues"
