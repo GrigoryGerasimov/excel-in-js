@@ -7,7 +7,37 @@ const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const { generateFilename } = require("./webpack.utils/generateFilename");
 const { definePlugins } = require("./webpack.utils/definePlugins");
 
-module.exports = env => ({
+const multipleStylesheetsBundlerConfig = (env, argv) => ({
+    mode: argv?.mode || "development",
+    context: path.resolve(__dirname, "src/assets/scss"),
+    entry: {
+        app: "./app.scss",
+        dashboard: "./dashboard.scss"
+    },
+    output: {
+        filename: "[name].[contenthash].bundle.js",
+        path: path.resolve(__dirname, "bundle")
+    },
+    module: {
+        rules: [
+            {
+                test: /\.s[ac]ss$/gi,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+            }
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            DEVELOPMENT: JSON.stringify(true),
+            "process.env.NODE_ENV": argv?.mode ? JSON.stringify(argv.mode) : "development"
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].bundle.css"
+        })
+    ]
+});
+
+module.exports = (env, argv) => [{
     mode: env?.development ? "development" : "production",
     target: "web",
     context: path.resolve(__dirname, "src"),
@@ -79,4 +109,5 @@ module.exports = env => ({
         ],
         [new EslintWebpackPlugin()]
     )
-});
+},
+multipleStylesheetsBundlerConfig(env, argv)];

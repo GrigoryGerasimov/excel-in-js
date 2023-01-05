@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --env development",
+    "notserve": "webpack --mode=development",
     "build": "webpack --env production"
   },
   "repository": {
