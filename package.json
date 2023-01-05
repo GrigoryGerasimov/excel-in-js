@@ -18,7 +18,7 @@
     "vanilla",
     "js"
   ],
-  "author": "Grigory Gerasimov",
+  "author": "Grigory Gerasimov <rehor.ger@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GrigoryGerasimov/excel-in-js/issues"

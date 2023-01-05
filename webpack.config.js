@@ -28,7 +28,6 @@ const multipleStylesheetsBundlerConfig = (env, argv) => ({
     },
     plugins: [
         new webpack.DefinePlugin({
-            DEVELOPMENT: JSON.stringify(true),
             "process.env.NODE_ENV": argv?.mode ? JSON.stringify(argv.mode) : "development"
         }),
         new MiniCssExtractPlugin({
@@ -37,7 +36,7 @@ const multipleStylesheetsBundlerConfig = (env, argv) => ({
     ]
 });
 
-module.exports = (env, argv) => [{
+const webpackMainConfig = (env, argv) => ({
     mode: env?.development ? "development" : "production",
     target: "web",
     context: path.resolve(__dirname, "src"),
@@ -57,7 +56,7 @@ module.exports = (env, argv) => [{
         extensions: [".js", "json"],
         alias: {
             "@": path.resolve(__dirname, "src"),
-            "@/core": path.resolve(__dirname, "src", "core")
+            "@core": path.resolve(__dirname, "src", "core")
         }
     },
     devServer: {
@@ -109,5 +108,8 @@ module.exports = (env, argv) => [{
         ],
         [new EslintWebpackPlugin()]
     )
-},
-multipleStylesheetsBundlerConfig(env, argv)];
+});
+
+module.exports = (env, argv) => {
+    return argv?.mode ? [webpackMainConfig(env, argv), multipleStylesheetsBundlerConfig(env, argv)] : webpackMainConfig(env, argv);
+};
