@@ -18,6 +18,11 @@ const multipleStylesheetsBundlerConfig = (env, argv) => ({
         filename: "[name].[contenthash].bundle.js",
         path: path.resolve(__dirname, "bundle")
     },
+    optimization: {
+        splitChunks: {
+            chunks: "all"
+        }
+    },
     module: {
         rules: [
             {
@@ -74,11 +79,16 @@ const webpackMainConfig = (env, argv) => ({
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
             },
             {
+                test: /\.csv$/gi,
+                use: ["csv-loader"]
+            },
+            {
                 test: /\.m?js$/gi,
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["@babel/preset-env"]
+                        presets: ["@babel/preset-env"],
+                        plugins: ["@babel/plugin-proposal-class-properties"]
                     }
                 }
             }

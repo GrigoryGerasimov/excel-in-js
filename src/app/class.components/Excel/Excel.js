@@ -7,10 +7,15 @@ export class Excel {
     }
 
     render() {
+        const $appNode = this.createNode({ tag: "div", className: "app" });
+        this.$rootElem.appendChild($appNode);
+
         for (const Component of this.components) {
-            this.$rootElem.insertAdjacentHTML("beforeend", new Component().toHTML());
+            const $componentNode = this.createNode({ tag: "div", className: Component.className });
+            $componentNode.insertAdjacentHTML("afterbegin", new Component($componentNode).toHTML());
+            $appNode.appendChild($componentNode);
         }
     }
 }
 
-Object.assign(Excel, MixinDOM);
+Object.assign(Excel.prototype, MixinDOM);
