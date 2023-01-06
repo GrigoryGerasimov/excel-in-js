@@ -61,7 +61,8 @@ const webpackMainConfig = (env, argv) => ({
         extensions: [".js", "json"],
         alias: {
             "@": path.resolve(__dirname, "src"),
-            "@core": path.resolve(__dirname, "src", "core")
+            "@core": path.resolve(__dirname, "src", "core"),
+            "@framework": path.resolve(__dirname, "src", "core", "framework")
         }
     },
     devServer: {

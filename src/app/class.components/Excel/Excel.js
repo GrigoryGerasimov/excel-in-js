@@ -1,4 +1,4 @@
-import { $ } from "@core/framework/CoreDOM";
+import { $ } from "@framework/CoreDOM";
 
 export class Excel {
     constructor(id, options) {
