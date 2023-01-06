@@ -1,7 +1,8 @@
 export const MixinDOM = {
-    createNode(parent, node, content) {
-        const child = document.createElement(node);
-        child.textContent = content;
-        parent.appendChild(child);
+    createNode({ tag, className, content }) {
+        const node = document.createElement(tag);
+        if (className) node.classList.add(className);
+        if (content) node.textContent = content;
+        return node;
     }
 };
