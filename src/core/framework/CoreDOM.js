@@ -1,9 +1,7 @@
-import { MixinDOM } from "@/utils/mixins/MixinDOM";
+import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
 
 class CoreDOM {}
 
-export const $ = () => {
-    return new CoreDOM();
-};
+export const $ = new CoreDOM();
 
 Object.assign(CoreDOM.prototype, MixinDOM);
