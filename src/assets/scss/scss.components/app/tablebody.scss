@@ -19,17 +19,21 @@
     }
     &__cell {
         @include table-cell(map.get($min-width, "cell"), $border-basic-style);
+        background-color: map.get($theme-color, "functional");
     }
     &__row-cell-cols {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
     }
-    &__col {
+    &__col, &__col-head {
         @include table-cell(map.get($min-width, "colcell"), $border-basic-style);
         &:focus, &:active {
             border: 3px solid rgba(0, 0, 0, 1);
             cursor: pointer;
         }
+    }
+    &__col-head {
+        background-color: map.get($theme-color, "contrast");
     }
 }
