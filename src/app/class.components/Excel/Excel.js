@@ -1,4 +1,4 @@
-import { MixinDOM } from "@/utils/mixins/MixinDOM.js";
+import { $ } from "@core/framework/CoreDOM";
 
 export class Excel {
     constructor(id, options) {
@@ -7,15 +7,13 @@ export class Excel {
     }
 
     render() {
-        const $appNode = this.createNode({ tag: "div", className: "app" });
+        const $appNode = $.createNode({ tag: "div", className: "app" });
         this.$rootElem.appendChild($appNode);
 
         for (const Component of this.components) {
-            const $componentNode = this.createNode({ tag: "div", className: Component.className });
+            const $componentNode = $.createNode({ tag: "div", className: Component.className });
             $componentNode.insertAdjacentHTML("afterbegin", new Component($componentNode).toHTML());
             $appNode.appendChild($componentNode);
         }
     }
 }
-
-Object.assign(Excel.prototype, MixinDOM);
