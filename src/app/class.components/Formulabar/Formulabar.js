@@ -8,4 +8,4 @@ const FormulabarTemplate = `
 </div>
 `;
 
-export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate);
+export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate, "Formulabar", ["input", "click"]);

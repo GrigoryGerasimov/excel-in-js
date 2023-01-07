@@ -5,7 +5,7 @@ export const MixinDOM = {
         if (content) node.innerHTML = content;
         return node;
     },
-    validateSelector(payload) {
-        return typeof payload === "string" ? document.querySelector(payload) : payload;
+    validateSelector(payload, ancestor) {
+        return typeof payload === "string" ? document.querySelector(payload) : payload instanceof ancestor ? payload.parent : payload;
     }
 };
