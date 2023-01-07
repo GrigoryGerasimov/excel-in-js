@@ -7,22 +7,17 @@ export class Excel {
     }
 
     render() {
-        const $appNode = $(this.$rootElem).createAndInsert({ tag: "div", className: "app" });
+        const $appNode = $(this.$rootElem).createAndAppend({ tag: "div", className: "app" }).makeParent();
+
+        this.components = this.components.map(Component => {
+            const $componentNode = $($appNode).createAndAppend({ tag: "div", className: Component.className }).makeParent();
+            const componentInstance = new Component($componentNode.parent);
+            $componentNode.pHTML = componentInstance.toHTML();
+            return componentInstance;
+        });
 
         for (const Component of this.components) {
-            $appNode
-                .create({
-                    tag: "div",
-                    className: Component.className
-                })
-                .insert({ shouldAppend: true })
-                .insert({
-                    parent: $appNode.$newElem,
-                    node: new Component($appNode.$newElem).toHTML(),
-                    shouldAppend: false,
-                    isElement: false,
-                    place: "beforeend"
-                });
+            Component.initSubscription();
         }
     }
 }

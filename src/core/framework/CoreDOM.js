@@ -2,35 +2,94 @@ import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
 class CoreDOM {
+    #parent;
+    #child;
+
     constructor($sel) {
         if (!$sel) new ErrorDOM("Please provide selector value").throw();
-        this.$elem = this.validateSelector($sel);
-        this.$newElem = null;
+        this.#parent = this.validateSelector($sel, CoreDOM);
+        this.#child = null;
     }
 
-    get html() {
-        return this.$elem;
+    get parent() {
+        return this.#parent;
     }
 
-    set html(val) {
-        this.$elem = this.validateSelector(val);
+    get child() {
+        return this.#child;
+    }
+
+    get pHTML() {
+        return this.#parent.outerHTML;
+    }
+
+    set pHTML(val) {
+        this.#parent.innerHTML = val;
+        return this;
+    }
+
+    get cHTML() {
+        return this.#child.outerHTML;
+    }
+
+    set cHTML(val) {
+        this.#child.innerHTML = val;
+        return this;
+    }
+
+    clearParent() {
+        this.#parent.innerHTML = "";
+        return this;
+    }
+
+    clearChild() {
+        this.#child.innerHTML = "";
+        return this;
+    }
+
+    clearBoth() {
+        this.clearParent();
+        this.clearChild();
+        return this;
+    }
+
+    makeParent() {
+        this.#parent = this.#child;
+        this.#child = null;
+        return this;
+    }
+
+    makeChild(node) {
+        if (!node || !(node instanceof Element) || !node.nodeType) {
+            new ErrorDOM("Please provide any existing DOM element to be set as child").throw();
+        }
+        this.#child = node;
         return this;
     }
 
     create(nodeParams) {
-        this.$newElem = this.createNode(nodeParams);
+        this.#child = this.createNode(nodeParams);
         return this;
     }
 
-    insert({ parent = this.$elem, node = this.$newElem, shouldAppend, isElement, place }) {
-        if (shouldAppend) !Element.prototype.append ? parent.appendChild(node) : parent.append(node);
-        else isElement ? parent.insertAdjacentElement(place, node) : parent.insertAdjacentHTML(place, node);
+    append() {
+        !Element.prototype.append ? this.#parent.appendChild(this.#child) : this.#parent.append(this.#child);
         return this;
     }
 
-    createAndInsert(nodeParams) {
-        const $newNode = this.createNode(nodeParams);
-        return this.insert({ node: $newNode, shouldAppend: true });
+    insert({ isElement, place }) {
+        isElement ? this.#parent.insertAdjacentElement(place, this.#child) : this.#parent.insertAdjacentHTML(place, this.cHTML);
+        return this;
+    }
+
+    createAndAppend(nodeParams) {
+        this.create(nodeParams);
+        return this.append();
+    }
+
+    createAndInsert(nodeParams, options) {
+        this.create(nodeParams);
+        return this.insert(options);
     }
 }
 
