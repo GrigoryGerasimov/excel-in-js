@@ -1,4 +1,4 @@
-export function ComponentFactory(parentClass, className, htmlTemplate, name, listeners) {
+export function ComponentFactory(parentClass, className, htmlTemplate, name, listeners = []) {
     if (!new.target) return new ComponentFactory(parentClass, className, htmlTemplate, name, listeners);
 
     return class extends parentClass {

@@ -11,13 +11,11 @@ export class Excel {
 
         this.components = this.components.map(Component => {
             const $componentNode = $($appNode).createAndAppend({ tag: "div", className: Component.className }).makeParent();
-            const componentInstance = new Component($componentNode.parent);
+            const componentInstance = new Component($componentNode);
             $componentNode.pHTML = componentInstance.toHTML();
             return componentInstance;
         });
 
-        for (const Component of this.components) {
-            Component.initSubscription();
-        }
+        for (const Component of this.components) Component.initSubscription();
     }
 }
