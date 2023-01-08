@@ -91,6 +91,10 @@ class CoreDOM {
         this.create(nodeParams);
         return this.insert(options);
     }
+
+    on(eventType, eventHandler) {
+        this.#parent.addEventListener(eventType, eventHandler);
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);

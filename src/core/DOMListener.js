@@ -1,14 +1,18 @@
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
+import { ComponentsEventHandlers } from "@/app/class.components/ComponentsEventHandlers";
 
 export class DOMListener {
-    constructor($elem, listeners) {
-        if (!$elem) new ErrorDOM("Please provide element value").throw();
-        this.$elem = $elem;
-        this.listeners = listeners;
+    constructor($root, options) {
+        if (!$root) new ErrorDOM("Please provide element value").throw();
+        this.$rootElem = $root;
+        const { name, listeners } = options;
+        Object.assign(this, { name, listeners });
     }
 
     subscribe() {
-        console.log(this.listeners);
+        for (const listener of this.listeners) {
+            this.$rootElem.on(listener, new ComponentsEventHandlers[this.name](listener));
+        }
     }
 
     unsubscribe() {}
