@@ -32,7 +32,7 @@ export class DOMListener {
         // this.listeners.forEach(listener => {
         //     const method = getEventMethodName(listener);
         //     if (!this[method]) throw new Error(`No method ${method} implemented for ${this.name}`);
-        //     this.$rootElem.off(listener, this[method]);
+        //     this.$rootElem.off(listener, this[method].bind(this));
         // });
     }
 }

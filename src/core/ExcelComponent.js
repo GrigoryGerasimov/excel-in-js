@@ -12,4 +12,8 @@ export class ExcelComponent extends DOMListener {
     initSubscription() {
         this.subscribe();
     }
+
+    endSubscription() {
+        this.unsubscribe();
+    }
 }
