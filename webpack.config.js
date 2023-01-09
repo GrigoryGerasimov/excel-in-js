@@ -6,7 +6,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
 const { generateFilename } = require("./webpack.utils/generateFilename");
 const { definePlugins } = require("./webpack.utils/definePlugins");
+const { defineOptimization } = require("./webpack.utils/defineOptimization");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
+const isProd = process.env.NODE_ENV === "production";
+const isDev = !isProd;
+
+// самостоятельная работа по блоку 3 Вёрстка, урок 9
 const multipleStylesheetsBundlerConfig = (env, argv) => ({
     mode: argv?.mode || "development",
     context: path.resolve(__dirname, "src/assets/scss"),
@@ -53,10 +61,7 @@ const webpackMainConfig = (env, argv) => ({
         path: path.resolve(__dirname, "bundle"),
         clean: true
     },
-    optimization: {
-        chunkIds: false,
-        nodeEnv: !env && "development"
-    },
+    optimization: defineOptimization(process.env.NODE_ENV, [new TerserWebpackPlugin(), new CssMinimizerWebpackPlugin()]),
     resolve: {
         extensions: [".js", "json"],
         alias: {
@@ -68,16 +73,20 @@ const webpackMainConfig = (env, argv) => ({
     devServer: {
         port: 5000,
         open: true,
-        hot: true,
+        hot: isDev,
         watchFiles: "./",
-        historyApiFallback: true
+        historyApiFallback: isDev
     },
-    devtool: env?.development && "source-map",
+    devtool: isDev && "source-map",
     module: {
         rules: [
             {
                 test: /\.s[ac]ss$/gi,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
+                ]
             },
             {
                 test: /\.csv$/gi,
@@ -85,6 +94,7 @@ const webpackMainConfig = (env, argv) => ({
             },
             {
                 test: /\.m?js$/gi,
+                exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
                     options: {
@@ -100,7 +110,10 @@ const webpackMainConfig = (env, argv) => ({
         [
             new HtmlWebpackPlugin({
                 template: "./app.html",
-                filename: "index.html"
+                filename: "index.html",
+                minify: {
+                    collapseWhitespace: isProd
+                }
             }),
             new CopyWebpackPlugin({
                 patterns: [
@@ -117,7 +130,7 @@ const webpackMainConfig = (env, argv) => ({
                 maxLength: 7
             })
         ],
-        [new EslintWebpackPlugin()]
+        [new EslintWebpackPlugin(), new BundleAnalyzerPlugin()]
     )
 });
 

@@ -1,8 +1,10 @@
+import { getEventMethodName } from "@framework/utils/namings/getEventMethodName";
+
 export class EventHandler {
     #handlerName;
 
     constructor(evtListener) {
-        this.#handlerName = `on${evtListener[0].toUpperCase()}${evtListener.slice(1)}`;
+        this.#handlerName = getEventMethodName(evtListener);
     }
 
     handleEvent(evt) {
