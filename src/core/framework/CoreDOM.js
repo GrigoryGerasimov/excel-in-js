@@ -95,6 +95,10 @@ class CoreDOM {
     on(eventType, eventHandler) {
         this.#parent.addEventListener(eventType, eventHandler);
     }
+
+    off(eventType, eventHandler) {
+        this.#parent.removeEventListener(eventType, eventHandler);
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);
