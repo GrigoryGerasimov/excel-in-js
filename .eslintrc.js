@@ -18,6 +18,7 @@ module.exports = {
         quotes: ["error", "double", { allowTemplateLiterals: true }],
         "multiline-ternary": ["error", "never"],
         "no-setter-return": ["off"],
-        "no-useless-constructor": ["off"]
+        "no-useless-constructor": ["off"],
+        "no-extend-native": ["off"]
     }
 };
