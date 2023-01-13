@@ -1,4 +1,4 @@
-import { createTableColHeaders, createTableCell, createTableRow, colCodes } from ".";
+import { createTableColHeaders, createTableCell, createTableRow, colCodes, rowResizeBlock } from ".";
 
 export const createTableBody = (rowQuantity = 25) => {
     const cols = Array(colCodes.length).fill(createTableCell(""));
@@ -6,7 +6,7 @@ export const createTableBody = (rowQuantity = 25) => {
 
     rows.push(createTableRow("", createTableColHeaders()));
 
-    for (let i = 0; i < rowQuantity; i++) rows.push(createTableRow(i + 1, cols.join("")));
+    for (let i = 0; i < rowQuantity; i++) rows.push(createTableRow((i + 1) + rowResizeBlock, cols.join("")));
 
     return rows.join("");
 };

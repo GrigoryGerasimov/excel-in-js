@@ -16,6 +16,7 @@
     &__row-head {
         min-height: inherit;
         height: inherit;
+        position: relative;
     }
     &__cell {
         @include table-cell(map.get($min-width, "cell"), $border-basic-style);
@@ -34,6 +35,13 @@
         }
     }
     &__col-head {
+        position: relative;
         background-color: map.get($theme-color, "contrast");
+    }
+    &__row-resize {
+        @include resize-block(height, left, row-resize);
+    }
+    &__col-resize {
+        @include resize-block(width, top, col-resize);
     }
 }
