@@ -29,10 +29,6 @@
     }
     &__col, &__col-head {
         @include table-cell(map.get($min-width, "colcell"), $border-basic-style);
-        &:focus, &:active {
-            border: 3px solid rgba(0, 0, 0, 1);
-            cursor: pointer;
-        }
     }
     &__col-head {
         position: relative;

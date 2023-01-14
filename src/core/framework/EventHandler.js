@@ -10,8 +10,4 @@ export class EventHandler {
     handleEvent(evt) {
         this[this.#handlerName](evt);
     }
-
-    onInput() {}
-
-    onClick() {}
 }
