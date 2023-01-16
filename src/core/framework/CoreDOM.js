@@ -1,5 +1,6 @@
 import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
+import { getComputedDimensions } from "@framework/utils/dom.operations/getComputedDimensions";
 
 class CoreDOM {
     #parent;
@@ -98,6 +99,14 @@ class CoreDOM {
 
     off(eventType, eventHandler) {
         this.#parent.removeEventListener(eventType, eventHandler);
+    }
+
+    ancestor(selector) {
+        return $(this.#parent.closest(selector));
+    }
+
+    coords() {
+        return getComputedDimensions(this.#parent);
     }
 }
 
