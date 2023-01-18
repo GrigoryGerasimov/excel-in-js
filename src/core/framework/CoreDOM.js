@@ -108,6 +108,13 @@ class CoreDOM {
     coords() {
         return getComputedDimensions(this.#parent);
     }
+
+    css(styles) {
+        Object.keys(styles).forEach(styleKey => {
+            if (styles[styleKey]) this.#parent.style[styleKey] = styles[styleKey];
+        });
+        return this;
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);
