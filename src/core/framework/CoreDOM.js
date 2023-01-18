@@ -69,6 +69,7 @@ class CoreDOM {
     }
 
     create(nodeParams) {
+        if (!nodeParams) new ErrorDOM("Please provide parameters to create a new node with").throw();
         this.#child = this.createNode(nodeParams);
         return this;
     }
@@ -79,6 +80,7 @@ class CoreDOM {
     }
 
     insert({ isElement, place }) {
+        if (!place) new ErrorDOM("Please provide a place to insert the parent node").throw();
         isElement ? this.#parent.insertAdjacentElement(place, this.#child) : this.#parent.insertAdjacentHTML(place, this.cHTML);
         return this;
     }
@@ -102,6 +104,7 @@ class CoreDOM {
     }
 
     ancestor(selector) {
+        if (!selector) new ErrorDOM("Please provide selector value").throw();
         return $(this.#parent.closest(selector));
     }
 
@@ -110,6 +113,9 @@ class CoreDOM {
     }
 
     css(styles) {
+        if (!styles || !Object.keys(styles).length) {
+            new ErrorDOM("Please provide a non-empty styles object to assign the required styles to the parent element").throw();
+        }
         Object.keys(styles).forEach(styleKey => {
             if (styles[styleKey]) this.#parent.style[styleKey] = styles[styleKey];
         });
