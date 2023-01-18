@@ -15,6 +15,6 @@ export const MixinDOM = {
     defineResizers({ resizeAncestor = this.parent, resizeType, action = "hide" }) {
         const getResizerCollection = ($rAncestor, $selector, oValue) => { $rAncestor.querySelectorAll($selector).forEach(r => { r.style.opacity = oValue; }); };
         if (action === "show") return cachingWrapperDOM(getResizerCollection, resizeAncestor, `[data-resize=${resizeType}]`)("0.5");
-        else if (action === "hide") return cachingWrapperDOM(getResizerCollection, document, "[data-resize]")("0");
+        else if (action === "hide") return cachingWrapperDOM(getResizerCollection, resizeAncestor, "[data-resize]")("0");
     }
 };
