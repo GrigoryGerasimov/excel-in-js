@@ -14,7 +14,6 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
 
-// самостоятельная работа по блоку 3 Вёрстка, урок 9
 const multipleStylesheetsBundlerConfig = (env, argv) => ({
     mode: argv?.mode || "development",
     context: path.resolve(__dirname, "src/assets/scss"),
