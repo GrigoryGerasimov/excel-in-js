@@ -13,7 +13,7 @@ export class TableEventHandlers extends EventHandler {
     }
 
     static defineResizersForColCells(colCell) {
-        return TableEventHandlers.ancestor.defineResizers({ resizeAncestor: colCell, resizeType: "col", action: "show" });
+        return TableEventHandlers.ancestor?.defineResizers({ resizeAncestor: colCell, resizeType: "col", action: "show" });
     }
 
     static iterateColCellCollection(fn) {
@@ -26,7 +26,7 @@ export class TableEventHandlers extends EventHandler {
     }
 
     static showRowResizers() {
-        TableEventHandlers.ancestor.defineResizers({ resizeType: "row", action: "show" });
+        TableEventHandlers.ancestor?.defineResizers({ resizeType: "row", action: "show" });
     }
 
     static hideResizers() {
@@ -36,10 +36,8 @@ export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
         if (evt.target.dataset.resize === "col") {
             TableEventHandlers.ancestor = $(evt.target).ancestor(`[data-colcode]`);
-            TableEventHandlers.showColResizers();
         } else if (evt.target.dataset.resize === "row") {
             TableEventHandlers.ancestor = $(evt.target).ancestor(`[data-type="row"]`);
-            TableEventHandlers.showRowResizers();
         }
 
         document.onmousemove = this.onMousemove;
@@ -48,23 +46,26 @@ export class TableEventHandlers extends EventHandler {
 
     onMousemove(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
+            TableEventHandlers.showColResizers();
+        } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
+            TableEventHandlers.showRowResizers();
+        }
+        return false;
+    }
+
+    onMouseup(evt) {
+        if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
             TableEventHandlers.iterateColCellCollection(colCell => setResizedDimensions({
                 target: $(colCell),
-                resizedWidth: TableEventHandlers.ancestor.coords().computedWidth,
-                mouseDifferX: evt.pageX - TableEventHandlers.ancestor.coords().computedRightCoord
+                resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
             }));
-            TableEventHandlers.showColResizers();
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             setResizedDimensions({
                 target: TableEventHandlers.ancestor,
-                resizedHeight: TableEventHandlers.ancestor.coords().computedHeight,
-                mouseDifferY: evt.pageY - TableEventHandlers.ancestor.coords().computedBottomCoord
+                resizedHeight: TableEventHandlers.ancestor.computeResizedParams(evt.pageY).resHeight
             });
-            TableEventHandlers.showRowResizers();
         }
-    }
 
-    onMouseup() {
         document.onmousemove = null;
         TableEventHandlers.hideResizers();
         TableEventHandlers.ancestor = null;
