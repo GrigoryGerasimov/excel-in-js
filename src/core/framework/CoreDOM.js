@@ -112,6 +112,21 @@ class CoreDOM {
         return getComputedDimensions(this.#parent);
     }
 
+    computeMouseDelta(initCoord) {
+        const mouseDifferX = initCoord - this.coords().computedRightCoord;
+        const mouseDifferY = initCoord - this.coords().computedBottomCoord;
+        return { mouseDifferX, mouseDifferY };
+    }
+
+    computeResizedParams(mouseInitCoord) {
+        if (!mouseInitCoord) {
+            new ErrorDOM("Please provide the initial mouse coords for the resized params to be computed").throw();
+        }
+        const resWidth = Math.trunc(this.coords().computedWidth + this.computeMouseDelta(mouseInitCoord).mouseDifferX) + "px";
+        const resHeight = Math.trunc(this.coords().computedHeight + this.computeMouseDelta(mouseInitCoord).mouseDifferY) + "px";
+        return { resWidth, resHeight };
+    }
+
     css(styles) {
         if (!styles || !Object.keys(styles).length) {
             new ErrorDOM("Please provide a non-empty styles object to assign the required styles to the parent element").throw();
