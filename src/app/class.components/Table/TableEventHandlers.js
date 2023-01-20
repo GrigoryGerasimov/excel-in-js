@@ -12,8 +12,10 @@ export class TableEventHandlers extends EventHandler {
         return cachingWrapperDOM(getColCellCollection, TableEventHandlers.ancestor)();
     }
 
-    static defineResizersForColCells(colCell) {
-        return TableEventHandlers.ancestor?.defineResizers({ resizeAncestor: colCell, resizeType: "col", action: "show" });
+    static defineResizersForColCells(resizeStyles) {
+        return function(colCell) {
+            return TableEventHandlers.ancestor?.defineResizers({ resizeAncestor: colCell, resizeType: "col", action: "show", resizeStyles });
+        };
     }
 
     static iterateColCellCollection(fn) {
@@ -21,16 +23,16 @@ export class TableEventHandlers extends EventHandler {
         return cachingWrapperDOM(iteratorWrapper)();
     }
 
-    static showColResizers() {
-        TableEventHandlers.iterateColCellCollection(TableEventHandlers.defineResizersForColCells);
+    static showColResizers(resizeStyles) {
+        TableEventHandlers.iterateColCellCollection(TableEventHandlers.defineResizersForColCells(resizeStyles));
     }
 
-    static showRowResizers() {
-        TableEventHandlers.ancestor?.defineResizers({ resizeType: "row", action: "show" });
+    static showRowResizers(resizeStyles) {
+        TableEventHandlers.ancestor?.defineResizers({ resizeType: "row", action: "show", resizeStyles });
     }
 
-    static hideResizers() {
-        TableEventHandlers.ancestor?.defineResizers({ resizeAncestor: EventHandler.self.$rootElem.parent, action: "hide" });
+    static hideResizers(resizeStyles) {
+        TableEventHandlers.ancestor?.defineResizers({ resizeAncestor: EventHandler.self.$rootElem.parent, action: "hide", resizeStyles });
     }
 
     onMousedown(evt) {
@@ -46,9 +48,9 @@ export class TableEventHandlers extends EventHandler {
 
     onMousemove(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
-            TableEventHandlers.showColResizers();
+            TableEventHandlers.showColResizers({ opacity: "0.5", right: -$(TableEventHandlers.ancestor).computeMouseDelta(evt.pageX).mouseDifferX + "px" });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
-            TableEventHandlers.showRowResizers();
+            TableEventHandlers.showRowResizers({ opacity: "0.5", bottom: -$(TableEventHandlers.ancestor).computeMouseDelta(evt.pageY).mouseDifferY + "px" });
         }
         return false;
     }
@@ -67,9 +69,9 @@ export class TableEventHandlers extends EventHandler {
         }
 
         document.onmousemove = null;
-        TableEventHandlers.hideResizers();
+        TableEventHandlers.hideResizers({ opacity: "0", right: "0", bottom: "0" });
         TableEventHandlers.ancestor = null;
-        document.onmouseover = e => { if (e.target.dataset.resize) e.target.style.opacity = "1"; };
-        document.onmouseout = event => { if (event.target.dataset.resize) event.target.style.opacity = "0"; };
+        document.onmouseover = e => { if (e.target.dataset.resize) $(e.target).css({ opacity: "1" }); };
+        document.onmouseout = event => { if (event.target.dataset.resize) $(event.target).css({ opacity: "0" }); };
     }
 }
