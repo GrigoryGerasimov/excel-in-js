@@ -1,6 +1,7 @@
 import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { getComputedDimensions } from "@framework/utils/dom.operations/getComputedDimensions";
+import { cachingWrapperDOM } from "@framework/utils/decorator/cachingWrapperDOM";
 
 class CoreDOM {
     #parent;
@@ -113,18 +114,24 @@ class CoreDOM {
     }
 
     computeMouseDelta(initCoord) {
-        const mouseDifferX = initCoord - this.coords().computedRightCoord;
-        const mouseDifferY = initCoord - this.coords().computedBottomCoord;
+        if (!initCoord) {
+            new ErrorDOM("Please provide the initial mouse coords for the resized params to be computed").throw();
+        }
+        const mouseDifferX = Math.trunc(initCoord - this.coords().computedRightCoord);
+        const mouseDifferY = Math.trunc(initCoord - this.coords().computedBottomCoord);
         return { mouseDifferX, mouseDifferY };
     }
 
     computeResizedParams(mouseInitCoord) {
-        if (!mouseInitCoord) {
-            new ErrorDOM("Please provide the initial mouse coords for the resized params to be computed").throw();
-        }
         const resWidth = Math.trunc(this.coords().computedWidth + this.computeMouseDelta(mouseInitCoord).mouseDifferX) + "px";
         const resHeight = Math.trunc(this.coords().computedHeight + this.computeMouseDelta(mouseInitCoord).mouseDifferY) + "px";
         return { resWidth, resHeight };
+    }
+
+    defineResizers({ resizeAncestor = this.parent, resizeType, resizeStyles, action = "hide" }) {
+        const getResizerCollection = ($rAncestor, $selector, styles) => { $rAncestor.querySelectorAll($selector).forEach(r => { $(r).css(styles); }); };
+        if (action === "show") return cachingWrapperDOM(getResizerCollection, resizeAncestor, `[data-resize=${resizeType}]`)(resizeStyles);
+        else if (action === "hide") return cachingWrapperDOM(getResizerCollection, resizeAncestor, "[data-resize]")(resizeStyles);
     }
 
     css(styles) {

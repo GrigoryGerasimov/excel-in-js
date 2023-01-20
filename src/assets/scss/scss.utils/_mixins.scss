@@ -30,6 +30,7 @@
     right: 0;
     #{$coreside}: 0;
     #{$dimension}: 3px;
+    z-index: 9999;
     cursor: $cursor;
     background-color: map.get($theme-color, "primary");
     &:hover {
