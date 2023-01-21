@@ -8,7 +8,7 @@ import { $ } from "@framework/CoreDOM";
 export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
         TableEventHandlers.ancestor = initAncestor(evt.target);
-        initHandlers(this, ["mousemove", "mouseup", "mouseover", "mouseout"]);
+        initHandlers(["mousemove", "mouseup", "mouseover", "mouseout"], this);
     }
 
     onMousemove(evt) {
