@@ -1,4 +1,5 @@
 import { setResizedDimensions } from "@framework/utils/dom.operations/setResizedDimensions";
+import { TableSelectionController } from "./TableSelectionController";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
@@ -54,6 +55,21 @@ export class TableEventHandlers extends EventHandler {
 
     onMouseout(evt) {
         if (evt.target.dataset.resize) $(evt.target).css({ opacity: "0" });
+    }
+
+    onClick(evt) {
+        const clickController = new TableSelectionController(evt.target);
+        return clickController.select();
+    }
+
+    onKeydown(evt) {
+        if (evt.keyCode === 37) {
+            const keyController = new TableSelectionController(evt.target.previousSibling);
+            return keyController.select();
+        } else if (evt.keyCode === 39) {
+            const keyController = new TableSelectionController(evt.target.nextSibling);
+            return keyController.select();
+        }
     }
 }
 

@@ -4,4 +4,4 @@ import { createTableBody } from "@/app/class.components/Table/table.components";
 
 const TableTemplate = createTableBody();
 
-export const Table = new ComponentFactory(ExcelComponent, "app-tablebody", TableTemplate, "Table", ["mousedown"]);
+export const Table = new ComponentFactory(ExcelComponent, "app-tablebody", TableTemplate, "Table", ["mousedown", "click", "keydown"]);
