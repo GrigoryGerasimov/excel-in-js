@@ -1,15 +1,14 @@
 import { setResizedDimensions } from "@framework/utils/dom.operations/setResizedDimensions";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
+import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
 import { $ } from "@framework/CoreDOM";
 
 export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
         TableEventHandlers.ancestor = initAncestor(evt.target);
-
-        document.onmousemove = this.onMousemove;
-        document.onmouseup = this.onMouseup;
+        initHandlers(this, ["mousemove", "mouseup", "mouseover", "mouseout"]);
     }
 
     onMousemove(evt) {
@@ -47,8 +46,14 @@ export class TableEventHandlers extends EventHandler {
             bottom: "0"
         });
         TableEventHandlers.ancestor = null;
-        document.onmouseover = e => { if (e.target.dataset.resize) $(e.target).css({ opacity: "1" }); };
-        document.onmouseout = event => { if (event.target.dataset.resize) $(event.target).css({ opacity: "0" }); };
+    }
+
+    onMouseover(evt) {
+        if (evt.target.dataset.resize) $(evt.target).css({ opacity: "1" });
+    }
+
+    onMouseout(evt) {
+        if (evt.target.dataset.resize) $(evt.target).css({ opacity: "0" });
     }
 }
 
