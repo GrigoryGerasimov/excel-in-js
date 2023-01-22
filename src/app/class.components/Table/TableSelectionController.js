@@ -7,15 +7,19 @@ export class TableSelectionController extends ControllerDOM {
     }
 
     select() {
-        this.clear();
         if (this._target.dataset.colcode || this._target.dataset.rowcode) {
-            $(this._target).css({ outline: "3px solid rgba(117, 97, 192, .75)" });
+            $(this._target).addClass(`${this._target.className}_selected`).setFocus();
         }
+        return this;
     }
 
     selectGroup() {}
 
     clear() {
-        document.querySelectorAll("div").forEach(block => $(block).css({ outline: "none" }));
+        $(this._target).findEvery("div").forEach(block => {
+            const selModifier = block.className.split(" ").find(clas => clas.endsWith("selected"));
+            if (selModifier) $(block).removeClass(selModifier);
+        });
+        return this;
     }
 }

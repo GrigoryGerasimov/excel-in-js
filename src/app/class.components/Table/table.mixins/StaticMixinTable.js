@@ -4,7 +4,7 @@ import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 export const StaticMixinTable = parentClass => ({
     ancestor: null,
     colCellCollection() {
-        const getColCellCollection = $ancestor => $ancestor ? parentClass.self.$rootElem.parent.querySelectorAll(`[data-colcode="${$ancestor.parent.dataset.colcode}"]`) : new ErrorDOM("Please provide an ancestor for dataset colcodes").throw();
+        const getColCellCollection = $ancestor => $ancestor ? parentClass.self.$rootElem.findSome(`[data-colcode="${$ancestor.parent.dataset.colcode}"]`) : new ErrorDOM("Please provide an ancestor for dataset colcodes").throw();
         return cachingWrapperDOM(getColCellCollection, this.ancestor)();
     },
     defineResizersForColCells(resizeStyles) {
