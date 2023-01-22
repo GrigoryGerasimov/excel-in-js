@@ -59,7 +59,7 @@ export class TableEventHandlers extends EventHandler {
 
     onClick(evt) {
         const clickController = new TableSelectionController(evt.target);
-        return clickController.clear().select();
+        evt.shiftKey || evt.ctrlKey ? clickController.selectGroup() : clickController.clear().select();
     }
 
     onKeydown(evt) {
