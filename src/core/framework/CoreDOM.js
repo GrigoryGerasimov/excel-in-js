@@ -129,7 +129,7 @@ class CoreDOM {
     }
 
     defineResizers({ resizeAncestor = this.parent, resizeType, resizeStyles, action = "hide" }) {
-        const getResizerCollection = ($rAncestor, $selector, styles) => { $rAncestor.querySelectorAll($selector).forEach(r => { $(r).css(styles); }); };
+        const getResizerCollection = ($rAncestor, $selector, styles) => { $($rAncestor).findSome($selector).forEach(r => { $(r).css(styles); }); };
         if (action === "show") return cachingWrapperDOM(getResizerCollection, resizeAncestor, `[data-resize=${resizeType}]`)(resizeStyles);
         else if (action === "hide") return cachingWrapperDOM(getResizerCollection, resizeAncestor, "[data-resize]")(resizeStyles);
     }
@@ -141,6 +141,49 @@ class CoreDOM {
         Object.keys(styles).forEach(styleKey => {
             if (styles[styleKey]) this.#parent.style[styleKey] = styles[styleKey];
         });
+        return this;
+    }
+
+    findOne(selector) {
+        if (!selector) new ErrorDOM("Please provide selector value").throw();
+        return this.#parent.querySelector(selector);
+    }
+
+    findSome(selector) {
+        if (!selector) new ErrorDOM("Please provide selector value").throw();
+        return this.#parent.querySelectorAll(selector);
+    }
+
+    findEvery(selector) {
+        if (!selector) new ErrorDOM("Please provide selector value").throw();
+        return document.querySelectorAll(selector);
+    }
+
+    addClass(className) {
+        if (!className) new ErrorDOM("Please provide the name of the class to be added").throw();
+        if (!this.hasClass(className)) this.#parent.classList.add(className);
+        return this;
+    }
+
+    hasClass(className) {
+        if (!className) new ErrorDOM("Please provide the name of the class to check").throw();
+        return this.#parent.classList.contains(className);
+    }
+
+    toggleClass(className) {
+        if (!className) new ErrorDOM("Please provide the name of the class to be toggled").throw();
+        this.#parent.classList.toggle(className);
+        return this;
+    }
+
+    removeClass(className) {
+        if (!className) new ErrorDOM("Please provide the name of the class to be removed").throw();
+        this.#parent.classList.remove(className);
+        return this;
+    }
+
+    setFocus() {
+        this.#parent.focus({ focusVisible: true });
         return this;
     }
 }

@@ -21,6 +21,9 @@
     &__cell {
         @include table-cell(map.get($min-width, "cell"), $border-basic-style);
         background-color: map.get($theme-color, "functional");
+        &_selected {
+            outline: 3px solid map.get($theme-color, "primary")!important;
+        }
     }
     &__row-cell-cols {
         display: flex;
@@ -29,6 +32,9 @@
     }
     &__col, &__col-head {
         @include table-cell(map.get($min-width, "colcell"), $border-basic-style);
+        &_selected {
+            outline: 3px solid map.get($theme-color, "primary")!important;
+        }
     }
     &__col-head {
         position: relative;

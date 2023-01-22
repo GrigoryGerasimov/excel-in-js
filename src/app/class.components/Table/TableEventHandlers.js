@@ -59,16 +59,16 @@ export class TableEventHandlers extends EventHandler {
 
     onClick(evt) {
         const clickController = new TableSelectionController(evt.target);
-        return clickController.select();
+        return clickController.clear().select();
     }
 
     onKeydown(evt) {
-        if (evt.keyCode === 37) {
+        if (evt.key === "ArrowLeft") {
             const keyController = new TableSelectionController(evt.target.previousSibling);
-            return keyController.select();
-        } else if (evt.keyCode === 39) {
+            return keyController.clear().select();
+        } else if (evt.key === "ArrowRight") {
             const keyController = new TableSelectionController(evt.target.nextSibling);
-            return keyController.select();
+            return keyController.clear().select();
         }
     }
 }
