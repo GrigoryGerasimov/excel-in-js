@@ -1,10 +1,13 @@
 import { setResizedDimensions } from "@framework/utils/dom.operations/setResizedDimensions";
+import { generateSelectableGroup } from "./table.utils/generateSelectableGroup";
+import { validateSelectable } from "./table.utils/validateSelectable";
 import { TableSelectionController } from "./TableSelectionController";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
 import { $ } from "@framework/CoreDOM";
+import { ControllerDOM } from "@framework/ControllerDOM";
 
 export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
@@ -58,8 +61,16 @@ export class TableEventHandlers extends EventHandler {
     }
 
     onClick(evt) {
-        const clickController = new TableSelectionController(evt.target);
-        evt.shiftKey || evt.ctrlKey ? clickController.selectGroup() : clickController.clear().select();
+        TableSelectionController.currentTarget = ControllerDOM.prototype.currentTarget;
+        if (validateSelectable(evt.target)) {
+            const clickController = new TableSelectionController(evt.target);
+            if (evt.shiftKey) {
+                const selectedElems = generateSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
+                clickController.clear().selectGroup(selectedElems);
+            } else if (evt.ctrlKey) {
+                clickController.selectSeveral();
+            } else clickController.clear().select();
+        }
     }
 
     onKeydown(evt) {

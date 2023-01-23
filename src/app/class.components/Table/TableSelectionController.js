@@ -1,13 +1,19 @@
+import { validateSelectable } from "./table.utils/validateSelectable";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ControllerDOM } from "@framework/ControllerDOM";
 import { $ } from "@framework/CoreDOM";
 
 export class TableSelectionController extends ControllerDOM {
     static isSelectableCell;
+    static currentTarget = null;
 
     constructor(target) {
         super(target);
-        this.constructor.isSelectableCell = this._target.dataset.colcode || this._target.dataset.rowcode;
+        this.constructor.isSelectableCell = validateSelectable(this._target);
+    }
+
+    get target() {
+        return this._target;
     }
 
     withModifier(trgt, modifier) {
@@ -18,11 +24,19 @@ export class TableSelectionController extends ControllerDOM {
     select() {
         if (TableSelectionController.isSelectableCell) {
             $(this._target).addClass(`${this._target.className}_selected`).setFocus();
+            ControllerDOM.prototype.currentTarget = this._target;
         }
         return this;
     }
 
-    selectGroup() {
+    selectGroup(elemGroup = []) {
+        elemGroup.forEach(elem => {
+            const selModifier = this.withModifier(elem, "selected");
+            if (!selModifier) $(elem).addClass(`${elem.className}_selected`);
+        });
+    }
+
+    selectSeveral() {
         const selModifier = this.withModifier(this._target, "selected");
         selModifier ? this.remove(selModifier) : this.select();
         super.constructor._targetGroup.push(this._target);
