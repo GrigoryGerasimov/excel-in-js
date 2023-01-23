@@ -186,6 +186,18 @@ class CoreDOM {
         this.#parent.focus({ focusVisible: true });
         return this;
     }
+
+    uid(options = {}) {
+        const { isParseRequired } = options;
+        if (isParseRequired) {
+            const parsedUid = this.uid().match(/\d{1,}/gi).map(Number);
+            return {
+                col: parsedUid[0],
+                row: parsedUid[1]
+            };
+        }
+        return this.#parent.dataset.uid;
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);
