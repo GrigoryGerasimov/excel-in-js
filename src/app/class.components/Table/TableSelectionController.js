@@ -5,11 +5,14 @@ import { $ } from "@framework/CoreDOM";
 
 export class TableSelectionController extends ControllerDOM {
     static isSelectableCell;
-    static currentTarget = null;
 
     constructor(target) {
         super(target);
         this.constructor.isSelectableCell = validateSelectable(this._target);
+    }
+
+    static get currentTarget() {
+        return ControllerDOM.prototype.currentTarget;
     }
 
     get target() {
