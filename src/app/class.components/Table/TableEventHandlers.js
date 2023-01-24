@@ -1,13 +1,14 @@
 import { setResizedDimensions } from "@framework/utils/dom.operations/setResizedDimensions";
-import { generateSelectableGroup } from "./table.utils/generateSelectableGroup";
+import { getSelectableGroup } from "./table.utils/getSelectableGroup";
 import { validateSelectable } from "./table.utils/validateSelectable";
 import { TableSelectionController } from "./TableSelectionController";
+import { getRelatedTargets } from "./table.utils/getRelatedTargets";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
 import { $ } from "@framework/CoreDOM";
-import { ControllerDOM } from "@framework/ControllerDOM";
+// import { ControllerDOM } from "@framework/ControllerDOM";
 
 export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
@@ -61,11 +62,10 @@ export class TableEventHandlers extends EventHandler {
     }
 
     onClick(evt) {
-        TableSelectionController.currentTarget = ControllerDOM.prototype.currentTarget;
         if (validateSelectable(evt.target)) {
             const clickController = new TableSelectionController(evt.target);
             if (evt.shiftKey) {
-                const selectedElems = generateSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
+                const selectedElems = getSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
                 clickController.clear().selectGroup(selectedElems);
             } else if (evt.ctrlKey) {
                 clickController.selectSeveral();
@@ -74,12 +74,37 @@ export class TableEventHandlers extends EventHandler {
     }
 
     onKeydown(evt) {
-        if (evt.key === "ArrowLeft") {
-            const keyController = new TableSelectionController(evt.target.previousSibling);
-            return keyController.clear().select();
-        } else if (evt.key === "ArrowRight") {
-            const keyController = new TableSelectionController(evt.target.nextSibling);
-            return keyController.clear().select();
+        if (validateSelectable(evt.target)) {
+            const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, EventHandler.self.$rootElem);
+
+            switch (evt.key) {
+                case "ArrowLeft": {
+                    relatedTargetLeft && new TableSelectionController(relatedTargetLeft).clear().select();
+                    break;
+                }
+                case "ArrowRight": {
+                    relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
+                    break;
+                }
+                case "ArrowUp": {
+                    relatedTargetUpwards && new TableSelectionController(relatedTargetUpwards).clear().select();
+                    break;
+                }
+                case "ArrowDown": {
+                    relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
+                    break;
+                }
+                case "Tab": {
+                    evt.preventDefault();
+                    relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
+                    break;
+                }
+                case "Enter": {
+                    evt.preventDefault();
+                    relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
+                    break;
+                }
+            }
         }
     }
 }

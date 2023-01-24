@@ -1,7 +1,7 @@
 import { getRange } from "./getRange";
 import { $ } from "@framework/CoreDOM";
 
-export const generateSelectableGroup = (currentTarget, relatedTarget, ancestor) => {
+export const getSelectableGroup = (currentTarget, relatedTarget, ancestor) => {
     const current = $(currentTarget).uid({ isParseRequired: true });
     const related = $(relatedTarget).uid({ isParseRequired: true });
 
