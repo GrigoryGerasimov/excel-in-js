@@ -10,8 +10,12 @@
     &__row {
         min-height: 25px;
         height: map.get($section-height, "tablebody-row");
+        position: relative;
         display: flex;
         flex-direction: row;
+        &_selected {
+            @include selected-state();
+        }
     }
     &__row-head {
         min-height: inherit;
@@ -22,7 +26,7 @@
         @include table-cell(map.get($min-width, "cell"), $border-basic-style);
         background-color: map.get($theme-color, "functional");
         &_selected {
-            outline: 3px solid map.get($theme-color, "primary")!important;
+            @include selected-state();
         }
     }
     &__row-cell-cols {
@@ -33,11 +37,10 @@
     &__col, &__col-head {
         @include table-cell(map.get($min-width, "colcell"), $border-basic-style);
         &_selected {
-            outline: 3px solid map.get($theme-color, "primary")!important;
+            @include selected-state();
         }
     }
     &__col-head {
-        position: relative;
         background-color: map.get($theme-color, "contrast");
     }
     &__row-resize {

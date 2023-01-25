@@ -1,14 +1,10 @@
-import { validateSelectable } from "./table.utils/validateSelectable";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ControllerDOM } from "@framework/ControllerDOM";
 import { $ } from "@framework/CoreDOM";
 
 export class TableSelectionController extends ControllerDOM {
-    static isSelectableCell;
-
     constructor(target) {
         super(target);
-        this.constructor.isSelectableCell = validateSelectable(this._target);
     }
 
     static get currentTarget() {
@@ -25,10 +21,8 @@ export class TableSelectionController extends ControllerDOM {
     }
 
     select() {
-        if (TableSelectionController.isSelectableCell) {
-            $(this._target).addClass(`${this._target.className}_selected`).setFocus();
-            ControllerDOM.prototype.currentTarget = this._target;
-        }
+        $(this._target).addClass(`${this._target.className}_selected`).setFocus();
+        ControllerDOM.prototype.currentTarget = this._target;
         return this;
     }
 
@@ -47,9 +41,7 @@ export class TableSelectionController extends ControllerDOM {
     }
 
     remove(clas) {
-        if (TableSelectionController.isSelectableCell) {
-            $(this._target).removeClass(clas);
-        }
+        $(this._target).removeClass(clas);
         return this;
     }
 
