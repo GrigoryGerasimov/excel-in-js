@@ -8,7 +8,6 @@ import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
 import { $ } from "@framework/CoreDOM";
-// import { ControllerDOM } from "@framework/ControllerDOM";
 
 export class TableEventHandlers extends EventHandler {
     onMousedown(evt) {
@@ -20,12 +19,14 @@ export class TableEventHandlers extends EventHandler {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
             TableEventHandlers.showColResizers({
                 right: -TableEventHandlers.ancestor.computeMouseDelta(evt.pageX).mouseDifferX + "px",
-                opacity: "0.5"
+                opacity: "0.5",
+                bottom: "-2000px"
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             TableEventHandlers.showRowResizers({
                 bottom: -TableEventHandlers.ancestor.computeMouseDelta(evt.pageY).mouseDifferY + "px",
-                opacity: "0.5"
+                opacity: "0.5",
+                right: "-4000px"
             });
         }
         return false;
@@ -63,18 +64,23 @@ export class TableEventHandlers extends EventHandler {
 
     onClick(evt) {
         if (validateSelectable(evt.target)) {
-            const clickController = new TableSelectionController(evt.target);
-            if (evt.shiftKey) {
-                const selectedElems = getSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
-                clickController.clear().selectGroup(selectedElems);
-            } else if (evt.ctrlKey) {
-                clickController.selectSeveral();
-            } else clickController.clear().select();
+            if (evt.target.dataset.rowcode) {
+                const targetRow = $(evt.target).ancestor(`[data-type="row"]`).parent;
+                new TableSelectionController(targetRow).clear().select();
+            } else {
+                const clickController = new TableSelectionController(evt.target);
+                if (evt.shiftKey && evt.target.dataset.uid && TableSelectionController.currentTarget.dataset.uid) {
+                    const selectedElems = getSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
+                    clickController.clear().selectGroup(selectedElems);
+                } else if (evt.ctrlKey) {
+                    clickController.selectSeveral();
+                } else clickController.clear().select();
+            }
         }
     }
 
     onKeydown(evt) {
-        if (validateSelectable(evt.target)) {
+        if (validateSelectable(evt.target) && !evt.shiftKey) {
             const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, EventHandler.self.$rootElem);
 
             switch (evt.key) {

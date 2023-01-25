@@ -37,3 +37,8 @@
         opacity: 1;
     }
 }
+
+@mixin selected-state() {
+    z-index: 99999;
+    outline: 2px solid map.get($theme-color, "primary") !important;
+}
