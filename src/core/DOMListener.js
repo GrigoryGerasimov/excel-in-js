@@ -1,5 +1,6 @@
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ComponentsEventHandlers } from "@/app/class.components/ComponentsEventHandlers";
+import { EventEmitter } from "@framework/EventEmitter";
 
 export class DOMListener {
     constructor($root, options) {
@@ -7,6 +8,10 @@ export class DOMListener {
         this.$rootElem = $root;
         const { name, listeners } = options;
         Object.assign(this, { name, listeners });
+    }
+
+    static get emitter() {
+        return DOMListener.prototype._emitter;
     }
 
     subscribe() {
@@ -25,3 +30,5 @@ export class DOMListener {
         });
     }
 }
+
+DOMListener.prototype._emitter = new EventEmitter();

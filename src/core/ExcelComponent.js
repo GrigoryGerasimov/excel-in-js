@@ -4,6 +4,7 @@ export class ExcelComponent extends DOMListener {
     constructor($root, options) {
         super($root, options);
         this.prepareBeforeInit();
+        this.unsubscribers = [];
     }
 
     toHTML() {
@@ -18,5 +19,8 @@ export class ExcelComponent extends DOMListener {
 
     endSubscription() {
         this.unsubscribe();
+        if (this.unsubscribers.length) {
+            this.unsubscribers.forEach(unsubscriber => unsubscriber());
+        }
     }
 }

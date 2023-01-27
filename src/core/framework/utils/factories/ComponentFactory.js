@@ -15,5 +15,9 @@ export function ComponentFactory(parentClass, className, htmlTemplate, name, lis
         initSubscription() {
             super.initSubscription();
         }
+
+        endSubscription() {
+            super.endSubscription();
+        }
     };
 }
