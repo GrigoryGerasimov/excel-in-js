@@ -1,11 +1,17 @@
 import { EventHandler } from "@framework/EventHandler";
+import { DOMListener } from "@core/DOMListener";
 
 export class FormulabarEventHandlers extends EventHandler {
     onInput(evt) {
-        console.log(evt.target.textContent.trim());
+        const formulaInput = evt.target.textContent.trim();
+        DOMListener.emitter.emit("formulabar/input", formulaInput);
     }
 
-    onClick(evt) {
-        console.log("Click done. Here is the triggered click event: ", evt);
+    onKeydown(evt) {
+        if (evt.key === "Enter") {
+            evt.preventDefault();
+            evt.target.blur();
+            DOMListener.emitter.emit("formulabar/focus");
+        }
     }
 }

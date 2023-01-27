@@ -7,6 +7,7 @@ import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
+import { DOMListener } from "@core/DOMListener";
 import { $ } from "@framework/CoreDOM";
 
 export class TableEventHandlers extends EventHandler {
@@ -112,6 +113,11 @@ export class TableEventHandlers extends EventHandler {
                 }
             }
         }
+    }
+
+    onInput(evt) {
+        const cellInput = evt.target.textContent.trim();
+        DOMListener.emitter.emit("tablecell/input", cellInput);
     }
 }
 

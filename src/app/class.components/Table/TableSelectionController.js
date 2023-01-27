@@ -3,12 +3,18 @@ import { ControllerDOM } from "@framework/ControllerDOM";
 import { $ } from "@framework/CoreDOM";
 
 export class TableSelectionController extends ControllerDOM {
+    static unsubscribers = [];
+
     constructor(target) {
         super(target);
     }
 
     static get currentTarget() {
         return ControllerDOM.prototype.currentTarget;
+    }
+
+    static set currentTarget(trgt) {
+        ControllerDOM.prototype.currentTarget = trgt;
     }
 
     get target() {
@@ -22,7 +28,7 @@ export class TableSelectionController extends ControllerDOM {
 
     select() {
         $(this._target).addClass(`${this._target.className}_selected`).setFocus();
-        ControllerDOM.prototype.currentTarget = this._target;
+        TableSelectionController.currentTarget = this._target;
         return this;
     }
 
@@ -50,6 +56,9 @@ export class TableSelectionController extends ControllerDOM {
             const selModifier = this.withModifier(block, "selected");
             if (selModifier) $(block).removeClass(selModifier);
         });
+        if (TableSelectionController.unsubscribers.length) {
+            TableSelectionController.unsubscribers.forEach(unsubscriber => unsubscriber());
+        }
         return this;
     }
 }

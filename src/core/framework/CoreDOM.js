@@ -198,6 +198,24 @@ class CoreDOM {
         }
         return this.#parent.dataset.uid;
     }
+
+    get pText() {
+        return this.#parent.textContent;
+    }
+
+    set pText(text) {
+        this.#parent.textContent = text;
+        return this;
+    }
+
+    get cText() {
+        return this.#child.textContent;
+    }
+
+    set cText(text) {
+        this.#child.textContent = text;
+        return this;
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);
