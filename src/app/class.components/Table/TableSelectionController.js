@@ -1,10 +1,9 @@
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ControllerDOM } from "@framework/ControllerDOM";
+import { DOMListener } from "@core/DOMListener";
 import { $ } from "@framework/CoreDOM";
 
 export class TableSelectionController extends ControllerDOM {
-    static unsubscribers = [];
-
     constructor(target) {
         super(target);
     }
@@ -29,6 +28,7 @@ export class TableSelectionController extends ControllerDOM {
     select() {
         $(this._target).addClass(`${this._target.className}_selected`).setFocus();
         TableSelectionController.currentTarget = this._target;
+        DOMListener.emitter.emit("tablecell/select", $(this._target).pText);
         return this;
     }
 
@@ -56,9 +56,6 @@ export class TableSelectionController extends ControllerDOM {
             const selModifier = this.withModifier(block, "selected");
             if (selModifier) $(block).removeClass(selModifier);
         });
-        if (TableSelectionController.unsubscribers.length) {
-            TableSelectionController.unsubscribers.forEach(unsubscriber => unsubscriber());
-        }
         return this;
     }
 }

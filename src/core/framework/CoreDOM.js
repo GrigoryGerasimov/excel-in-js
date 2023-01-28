@@ -200,20 +200,20 @@ class CoreDOM {
     }
 
     get pText() {
-        return this.#parent.textContent;
+        return this.#parent.tagName.toLowerCase() === "input" ? this.#parent.value : this.#parent.textContent;
     }
 
     set pText(text) {
-        this.#parent.textContent = text;
+        this.#parent.tagName.toLowerCase() === "input" ? this.#parent.value = text : this.#parent.textContent = text;
         return this;
     }
 
     get cText() {
-        return this.#child.textContent;
+        return this.#child.tagName.toLowerCase() === "input" ? this.#child.value : this.#child.textContent;
     }
 
     set cText(text) {
-        this.#child.textContent = text;
+        this.#child.tagName.toLowerCase() === "input" ? this.#child.value = text : this.#child.textContent = text;
         return this;
     }
 }
