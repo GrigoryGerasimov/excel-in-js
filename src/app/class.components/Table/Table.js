@@ -10,6 +10,7 @@ const TableTemplate = createTableBody();
 export const Table = new ComponentFactory(ExcelComponent, "app-tablebody", TableTemplate, "Table", ["mousedown", "click", "keydown", "input"]);
 
 const initSubscriptionInherited = Table.prototype.initSubscription;
+const endSubscriptionInherited = Table.prototype.endSubscription;
 
 Table.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
@@ -25,4 +26,8 @@ Table.prototype.initSubscription = function() {
     this.unsubscribers.push(Table.emitter.subscribe("formulabar/focus", () => {
         $(TableSelectionController.currentTarget).setFocus();
     }));
+};
+
+Table.prototype.endSubscription = function() {
+    endSubscriptionInherited.apply(this, arguments);
 };

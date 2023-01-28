@@ -1,17 +1,19 @@
-import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ComponentsEventHandlers } from "@/app/class.components/ComponentsEventHandlers";
-import { EventEmitter } from "@framework/EventEmitter";
+import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
 export class DOMListener {
-    constructor($root, options) {
+    static emtr = null;
+
+    constructor({ $root, emtr }, options) {
         if (!$root) new ErrorDOM("Please provide element value").throw();
         this.$rootElem = $root;
+        DOMListener.emtr = emtr;
         const { name, listeners } = options;
         Object.assign(this, { name, listeners });
     }
 
     static get emitter() {
-        return DOMListener.prototype._emitter;
+        return DOMListener.emtr;
     }
 
     subscribe() {
@@ -30,5 +32,3 @@ export class DOMListener {
         });
     }
 }
-
-DOMListener.prototype._emitter = new EventEmitter();
