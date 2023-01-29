@@ -81,35 +81,41 @@ export class TableEventHandlers extends EventHandler {
     }
 
     onKeydown(evt) {
-        if (validateSelectable(evt.target) && !evt.shiftKey) {
-            const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, EventHandler.self.$rootElem);
+        const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, EventHandler.self.$rootElem);
 
-            switch (evt.key) {
-                case "ArrowLeft": {
-                    relatedTargetLeft && new TableSelectionController(relatedTargetLeft).clear().select();
-                    break;
+        if (validateSelectable(evt.target)) {
+            if (!evt.target.textContent) {
+                switch (evt.key) {
+                    case "ArrowLeft": {
+                        relatedTargetLeft && new TableSelectionController(relatedTargetLeft).clear().select();
+                        break;
+                    }
+                    case "ArrowRight": {
+                        relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
+                        break;
+                    }
+                    case "ArrowUp": {
+                        relatedTargetUpwards && new TableSelectionController(relatedTargetUpwards).clear().select();
+                        break;
+                    }
+                    case "ArrowDown": {
+                        relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
+                        break;
+                    }
                 }
-                case "ArrowRight": {
-                    relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
-                    break;
-                }
-                case "ArrowUp": {
-                    relatedTargetUpwards && new TableSelectionController(relatedTargetUpwards).clear().select();
-                    break;
-                }
-                case "ArrowDown": {
-                    relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
-                    break;
-                }
-                case "Tab": {
-                    evt.preventDefault();
-                    relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
-                    break;
-                }
-                case "Enter": {
-                    evt.preventDefault();
-                    relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
-                    break;
+            }
+            if (!evt.shiftKey) {
+                switch (evt.key) {
+                    case "Tab": {
+                        evt.preventDefault();
+                        relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
+                        break;
+                    }
+                    case "Enter": {
+                        evt.preventDefault();
+                        relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
+                        break;
+                    }
                 }
             }
         }
