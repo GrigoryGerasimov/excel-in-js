@@ -19,6 +19,7 @@ module.exports = {
         "multiline-ternary": ["error", "never"],
         "no-setter-return": ["off"],
         "no-useless-constructor": ["off"],
-        "no-extend-native": ["off"]
+        "no-extend-native": ["off"],
+        "no-prototype-builtins": ["off"]
     }
 };
