@@ -1,3 +1,3 @@
 export const localStorageKeys = {
-    EXCEL_COLS: "excel-cols"
+    EXCEL_TABLE_RESIZE: "excel-table-resize"
 };

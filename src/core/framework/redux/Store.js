@@ -8,9 +8,7 @@ export class Store {
     #listeners;
 
     constructor(rootReducer, initialState = {}) {
-        if (!rootReducer || !Object.prototype.toString.call(rootReducer).match(/Function/)) {
-            new ErrorDOM("Please provide a valid reducer").throw();
-        }
+        if (!rootReducer || typeof rootReducer !== "function") new ErrorDOM("Please provide a valid reducer").throw();
         this.#reducer = rootReducer;
         this.#listeners = [];
         this.#state = isClassReducer(this.#reducer) ? new this.#reducer(initialState, init) : this.#reducer(initialState, init);

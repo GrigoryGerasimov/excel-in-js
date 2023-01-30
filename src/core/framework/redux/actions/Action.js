@@ -8,4 +8,4 @@ class Action {
 }
 
 export const init = new Action(actionTypes.INIT);
-export const colResize = payload => new Action(actionTypes.COL_RESIZE, payload);
+export const tableResize = payload => new Action(actionTypes.TABLE_RESIZE, payload);
