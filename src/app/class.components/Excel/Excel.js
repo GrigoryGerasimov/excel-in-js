@@ -2,9 +2,10 @@ import { EventEmitter } from "@framework/EventEmitter";
 import { $ } from "@framework/CoreDOM";
 
 export class Excel {
-    constructor(id, options) {
+    constructor(id, { components, store }) {
         this.$rootElem = document.querySelector(id);
-        this.components = options.components;
+        this.components = components;
+        this.store = store;
         this.emitter = new EventEmitter();
     }
 
@@ -13,7 +14,7 @@ export class Excel {
 
         this.components = this.components.map(Component => {
             const $componentNode = $($appNode).createAndAppend({ tag: "div", className: Component.className }).makeParent();
-            const componentInstance = new Component({ $root: $componentNode, emtr: this.emitter });
+            const componentInstance = new Component({ $root: $componentNode, emtr: this.emitter, store: this.store });
             $componentNode.pHTML = componentInstance.toHTML();
             return componentInstance;
         });

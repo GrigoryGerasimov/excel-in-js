@@ -4,6 +4,7 @@ import { validateSelectable } from "./table.utils/validateSelectable";
 import { TableSelectionController } from "./TableSelectionController";
 import { getRelatedTargets } from "./table.utils/getRelatedTargets";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
+import { colResize } from "@framework/redux/actions/Action";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
@@ -35,10 +36,14 @@ export class TableEventHandlers extends EventHandler {
 
     onMouseup(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
-            TableEventHandlers.iterateColCellCollection(colCell => setResizedDimensions({
-                target: $(colCell),
-                resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
-            }));
+            TableEventHandlers.iterateColCellCollection(colCell => {
+                setResizedDimensions({
+                    target: $(colCell),
+                    resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
+                });
+                const colData = { colCode: colCell.dataset.colcode, width: $(colCell).computeResizedParams(evt.pageX).resWidth };
+                DOMListener.store.dispatch(colResize(colData));
+            });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             setResizedDimensions({
                 target: TableEventHandlers.ancestor,
