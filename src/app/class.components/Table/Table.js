@@ -4,6 +4,7 @@ import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
 import { localStorageKeys } from "./table.constants/localStorageKeys";
 import { TableSelectionController } from "./TableSelectionController";
+import { getStoredStyles } from "./table.utils/getStoredStyles";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { $ } from "@framework/CoreDOM";
 
@@ -17,12 +18,10 @@ const endSubscriptionInherited = Table.prototype.endSubscription;
 Table.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
 
-    if (isInStorage(localStorageKeys.EXCEL_COLS)) {
-        const { colSize } = getFromStorage(localStorageKeys.EXCEL_COLS);
-        const colCodes = Object.keys(colSize);
-        for (const colCode of colCodes) {
-            this.$rootElem.findSome(`[data-colcode="${colCode}"]`).forEach(col => $(col).css({ width: colSize[colCode] }));
-        }
+    if (isInStorage(localStorageKeys.EXCEL_TABLE_RESIZE)) {
+        const { colSize, rowSize } = getFromStorage(localStorageKeys.EXCEL_TABLE_RESIZE);
+        getStoredStyles({ styles: colSize, dataset: "colcode", coreElem: this.$rootElem });
+        getStoredStyles({ styles: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
     }
 
     TableSelectionController.currentTarget = this.$rootElem.findOne(INITIAL_CELL_SELECTOR);

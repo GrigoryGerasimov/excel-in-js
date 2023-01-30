@@ -4,7 +4,7 @@ import { validateSelectable } from "./table.utils/validateSelectable";
 import { TableSelectionController } from "./TableSelectionController";
 import { getRelatedTargets } from "./table.utils/getRelatedTargets";
 import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
-import { colResize } from "@framework/redux/actions/Action";
+import { tableResize } from "@framework/redux/actions/Action";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
@@ -41,14 +41,22 @@ export class TableEventHandlers extends EventHandler {
                     target: $(colCell),
                     resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
                 });
-                const colData = { colCode: colCell.dataset.colcode, width: $(colCell).computeResizedParams(evt.pageX).resWidth };
-                DOMListener.store.dispatch(colResize(colData));
+                const colData = {
+                    colCode: colCell.dataset.colcode,
+                    width: $(colCell).computeResizedParams(evt.pageX).resWidth
+                };
+                DOMListener.store.dispatch(tableResize(colData));
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             setResizedDimensions({
                 target: TableEventHandlers.ancestor,
                 resizedHeight: TableEventHandlers.ancestor.computeResizedParams(evt.pageY).resHeight
             });
+            const rowData = {
+                rowCode: TableEventHandlers.ancestor.findOne("[data-rowcode]").dataset.rowcode,
+                height: TableEventHandlers.ancestor.computeResizedParams(evt.pageY).resHeight
+            };
+            DOMListener.store.dispatch(tableResize(rowData));
         }
 
         document.onmousemove = null;
