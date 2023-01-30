@@ -1,6 +1,8 @@
+import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
+import { localStorageKeys } from "./table.constants/localStorageKeys";
 import { TableSelectionController } from "./TableSelectionController";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { $ } from "@framework/CoreDOM";
@@ -14,6 +16,14 @@ const endSubscriptionInherited = Table.prototype.endSubscription;
 
 Table.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
+
+    if (isInStorage(localStorageKeys.EXCEL_COLS)) {
+        const { colSize } = getFromStorage(localStorageKeys.EXCEL_COLS);
+        const colCodes = Object.keys(colSize);
+        for (const colCode of colCodes) {
+            this.$rootElem.findSome(`[data-colcode="${colCode}"]`).forEach(col => $(col).css({ width: colSize[colCode] }));
+        }
+    }
 
     TableSelectionController.currentTarget = this.$rootElem.findOne(INITIAL_CELL_SELECTOR);
 
