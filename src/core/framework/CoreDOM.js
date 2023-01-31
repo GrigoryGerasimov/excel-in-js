@@ -200,7 +200,7 @@ class CoreDOM {
     }
 
     get pText() {
-        return this.#parent.tagName.toLowerCase() === "input" ? this.#parent.value : this.#parent.textContent;
+        return this.#parent.tagName.toLowerCase() === "input" ? this.#parent.value.trim() : this.#parent.textContent.trim();
     }
 
     set pText(text) {
@@ -209,7 +209,7 @@ class CoreDOM {
     }
 
     get cText() {
-        return this.#child.tagName.toLowerCase() === "input" ? this.#child.value : this.#child.textContent;
+        return this.#child.tagName.toLowerCase() === "input" ? this.#child.value.trim() : this.#child.textContent.trim();
     }
 
     set cText(text) {

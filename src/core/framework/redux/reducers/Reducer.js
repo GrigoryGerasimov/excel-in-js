@@ -25,6 +25,19 @@ export class Reducer {
                     rowSize: this.addNewProps(this.#state.rowSize, this.#action.payload.rowCode, this.#action.payload.height)
                 };
             }
+            case actionTypes.CELL_DATA_CHANGE: {
+                return {
+                    ...this.#state,
+                    cellData: this.addNewProps(this.#state.cellData, this.#action.payload.uid, this.#action.payload.input),
+                    currentText: this.#action.payload.input
+                };
+            }
+            case actionTypes.TABLE_FOCUS_CAPTURE: {
+                return {
+                    ...this.#state,
+                    currentFocus: this.#action.payload.focusTargetUid
+                };
+            }
             default: return this.#state;
         }
     }

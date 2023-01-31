@@ -1,3 +1,4 @@
+import { captureCellData, captureFocus } from "./table.utils/captureTableData";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { ControllerDOM } from "@framework/ControllerDOM";
 import { DOMListener } from "@core/DOMListener";
@@ -28,6 +29,8 @@ export class TableSelectionController extends ControllerDOM {
     select() {
         $(this._target).addClass(`${this._target.className}_selected`).setFocus();
         TableSelectionController.currentTarget = this._target;
+        captureFocus(DOMListener.store, this._target);
+        captureCellData(DOMListener.store, this._target);
         DOMListener.emitter.emit("tablecell/select", $(this._target).pText);
         return this;
     }

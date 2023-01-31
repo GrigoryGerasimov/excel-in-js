@@ -1,4 +1,6 @@
+import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
+import { localStorageKeys } from "../Table/table.constants/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent.js";
 import { $ } from "@framework/CoreDOM";
 
@@ -19,13 +21,24 @@ Formulabar.prototype.initSubscription = function() {
 
     const formulabarInputField = this.$rootElem.findOne(`[data-id="formula-text"]`);
 
+    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
+        const { currentText } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+        setFormulabarInputFieldText(currentText);
+    }
+
+    Formulabar.store.subscribe(setFormulabarInputFieldText.bind(Formulabar.store));
+
     this.unsubscribers.push(Formulabar.emitter.subscribe("tablecell/input", text => {
-        $(formulabarInputField).pText = text;
+        setFormulabarInputFieldText(text);
     }));
 
     this.unsubscribers.push(Formulabar.emitter.subscribe("tablecell/select", text => {
-        $(formulabarInputField).pText = text;
+        setFormulabarInputFieldText(text);
     }));
+
+    function setFormulabarInputFieldText(text) {
+        $(formulabarInputField).pText = text ?? this.getState().currentText;
+    }
 };
 
 Formulabar.prototype.endSubscription = function() {

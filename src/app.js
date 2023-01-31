@@ -5,11 +5,15 @@ import { Reducer } from "@framework/redux/reducers/Reducer";
 import { Store } from "@framework/redux/Store";
 import "./assets/scss/app.scss";
 
-const store = new Store(Reducer, getFromStorage(localStorageKeys.EXCEL_TABLE_RESIZE) || { colSize: {}, rowSize: {} });
+const initialState = {
+    colSize: {},
+    rowSize: {},
+    cellData: {},
+    currentText: "",
+    currentFocus: ""
+};
 
-function toStorage() {
-    setIntoStorage(localStorageKeys.EXCEL_TABLE_RESIZE, this.getState());
-}
+const store = new Store(Reducer, getFromStorage(localStorageKeys.EXCEL_TABLE_STATE) ?? initialState);
 
 store.subscribe(toStorage.bind(store));
 
@@ -19,3 +23,7 @@ const app = new Excel("#root", {
 });
 
 app.render();
+
+function toStorage() {
+    setIntoStorage(localStorageKeys.EXCEL_TABLE_STATE, this.getState());
+}
