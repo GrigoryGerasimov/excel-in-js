@@ -1,10 +1,11 @@
 import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
+import { captureCellData, captureFocus } from "./table.utils/captureTableData";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
 import { localStorageKeys } from "./table.constants/localStorageKeys";
 import { TableSelectionController } from "./TableSelectionController";
-import { getStoredStyles } from "./table.utils/getStoredStyles";
+import { getStoredData } from "./table.utils/getStoredData";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { $ } from "@framework/CoreDOM";
 
@@ -18,18 +19,25 @@ const endSubscriptionInherited = Table.prototype.endSubscription;
 Table.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
 
-    if (isInStorage(localStorageKeys.EXCEL_TABLE_RESIZE)) {
-        const { colSize, rowSize } = getFromStorage(localStorageKeys.EXCEL_TABLE_RESIZE);
-        getStoredStyles({ styles: colSize, dataset: "colcode", coreElem: this.$rootElem });
-        getStoredStyles({ styles: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
+    let currentTargetUid;
+
+    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
+        const { colSize, rowSize, cellData, currentFocus } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+        getStoredData({ data: colSize, dataset: "colcode", coreElem: this.$rootElem });
+        getStoredData({ data: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
+        getStoredData({ data: cellData, dataset: "uid", coreElem: this.$rootElem });
+        currentTargetUid = currentFocus;
     }
 
-    TableSelectionController.currentTarget = this.$rootElem.findOne(INITIAL_CELL_SELECTOR);
+    TableSelectionController.currentTarget = this.$rootElem.findOne(`[data-uid="${currentTargetUid}"]`) ?? this.$rootElem.findOne(INITIAL_CELL_SELECTOR);
 
     new TableSelectionController(TableSelectionController.currentTarget).select();
 
+    captureFocus(Table.store, TableSelectionController.currentTarget);
+
     this.unsubscribers.push(Table.emitter.subscribe("formulabar/input", text => {
         $(TableSelectionController.currentTarget).pText = text;
+        captureCellData(Table.store, TableSelectionController.currentTarget);
     }));
 
     this.unsubscribers.push(Table.emitter.subscribe("formulabar/focus", () => {
