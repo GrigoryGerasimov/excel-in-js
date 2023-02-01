@@ -1,3 +1,4 @@
+import { StoreSubscriber } from "@framework/StoreSubscriber";
 import { EventEmitter } from "@framework/EventEmitter";
 import { $ } from "@framework/CoreDOM";
 
@@ -7,6 +8,7 @@ export class Excel {
         this.components = components;
         this.store = store;
         this.emitter = new EventEmitter();
+        this.storeSubscriber = new StoreSubscriber(this.store);
     }
 
     render() {
@@ -19,10 +21,14 @@ export class Excel {
             return componentInstance;
         });
 
+        this.storeSubscriber.applySubscription(this.components);
+
         for (const Component of this.components) Component.initSubscription();
     }
 
     unmount() {
+        this.storeSubscriber.cancelSubscription();
+
         for (const Component of this.components) Component.endSubscription();
     }
 }

@@ -10,8 +10,8 @@ export class DOMListener {
         this.$rootElem = $root;
         DOMListener.emtr = emtr;
         DOMListener.stor = store;
-        const { name, listeners } = options;
-        Object.assign(this, { name, listeners });
+        const { name, listeners, subscribes } = options;
+        Object.assign(this, { name, listeners, subscribes });
     }
 
     static get emitter() {
@@ -24,7 +24,7 @@ export class DOMListener {
 
     subscribe() {
         for (const listener of this.listeners) {
-            const componentEventHandler = new ComponentsEventHandlers[this.name](listener, this);
+            const componentEventHandler = new ComponentsEventHandlers[this.name](listener, this, DOMListener.emitter, DOMListener.store);
             if (!componentEventHandler) new ErrorDOM(`No corresponding method implemented for ${listener}`).throw();
             this.$rootElem.on(listener, componentEventHandler);
         }

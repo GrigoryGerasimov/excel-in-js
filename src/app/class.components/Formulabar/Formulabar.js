@@ -11,7 +11,7 @@ const FormulabarTemplate = `
 </div>
 `;
 
-export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate, "Formulabar", ["input", "keydown"]);
+export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate, "Formulabar", ["input", "keydown"], ["currentText"]);
 
 const initSubscriptionInherited = Formulabar.prototype.initSubscription;
 const endSubscriptionInherited = Formulabar.prototype.endSubscription;
@@ -28,10 +28,6 @@ Formulabar.prototype.initSubscription = function() {
 
     Formulabar.store.subscribe(setFormulabarInputFieldText.bind(Formulabar.store));
 
-    this.unsubscribers.push(Formulabar.emitter.subscribe("tablecell/input", text => {
-        setFormulabarInputFieldText(text);
-    }));
-
     this.unsubscribers.push(Formulabar.emitter.subscribe("tablecell/select", text => {
         setFormulabarInputFieldText(text);
     }));
@@ -43,4 +39,8 @@ Formulabar.prototype.initSubscription = function() {
 
 Formulabar.prototype.endSubscription = function() {
     endSubscriptionInherited.apply(this, arguments);
+};
+
+Formulabar.prototype.componentPropsUpdated = function({ currentText }) {
+    $(this.$rootElem.findOne(`[data-id="formula-text"]`)).pText = currentText;
 };

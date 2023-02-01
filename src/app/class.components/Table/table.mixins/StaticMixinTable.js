@@ -1,10 +1,11 @@
 import { cachingWrapperDOM } from "@framework/utils/decorator/cachingWrapperDOM";
+import { captureCellData, captureFocus } from "../table.utils/captureTableData";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
-export const StaticMixinTable = parentClass => ({
+export const StaticMixinTable = {
     ancestor: null,
     colCellCollection() {
-        const getColCellCollection = $ancestor => $ancestor ? parentClass.self.$rootElem.findSome(`[data-colcode="${$ancestor.parent.dataset.colcode}"]`) : new ErrorDOM("Please provide an ancestor for dataset colcodes").throw();
+        const getColCellCollection = $ancestor => $ancestor ? this.self.$rootElem.findSome(`[data-colcode="${$ancestor.parent.dataset.colcode}"]`) : new ErrorDOM("Please provide an ancestor for dataset colcodes").throw();
         return cachingWrapperDOM(getColCellCollection, this.ancestor)();
     },
     defineResizersForColCells(resizeStyles) {
@@ -33,9 +34,13 @@ export const StaticMixinTable = parentClass => ({
     },
     hideResizers(resizeStyles) {
         this.ancestor?.defineResizers({
-            resizeAncestor: parentClass.self.$rootElem.parent,
+            resizeAncestor: this.self.$rootElem.parent,
             action: "hide",
             resizeStyles
         });
+    },
+    bindCellDataFocusCapture(target) {
+        captureCellData(this.store, target);
+        captureFocus(this.store, target);
     }
-});
+};
