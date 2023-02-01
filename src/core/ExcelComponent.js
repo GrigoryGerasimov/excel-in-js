@@ -13,6 +13,8 @@ export class ExcelComponent extends DOMListener {
 
     prepareBeforeInit() {}
 
+    componentPropsUpdated() {}
+
     initSubscription() {
         this.subscribe();
     }

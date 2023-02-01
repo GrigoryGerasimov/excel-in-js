@@ -1,5 +1,5 @@
-import { captureColWidth, captureRowHeight, captureCellData } from "./table.utils/captureTableData";
 import { setResizedDimensions } from "@framework/utils/dom.operations/setResizedDimensions";
+import { captureColWidth, captureRowHeight } from "./table.utils/captureTableData";
 import { getSelectableGroup } from "./table.utils/getSelectableGroup";
 import { validateSelectable } from "./table.utils/validateSelectable";
 import { TableSelectionController } from "./TableSelectionController";
@@ -8,7 +8,6 @@ import { StaticMixinTable } from "./table.mixins/StaticMixinTable";
 import { initAncestor } from "./table.utils/initAncestor";
 import { initHandlers } from "./table.utils/initHandlers";
 import { EventHandler } from "@framework/EventHandler";
-import { DOMListener } from "@core/DOMListener";
 import { $ } from "@framework/CoreDOM";
 
 export class TableEventHandlers extends EventHandler {
@@ -41,14 +40,14 @@ export class TableEventHandlers extends EventHandler {
                     target: $(colCell),
                     resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
                 });
-                captureColWidth(DOMListener.store, colCell, evt.pageX);
+                captureColWidth(TableEventHandlers.store, colCell, evt.pageX);
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             setResizedDimensions({
                 target: TableEventHandlers.ancestor,
                 resizedHeight: TableEventHandlers.ancestor.computeResizedParams(evt.pageY).resHeight
             });
-            captureRowHeight(DOMListener.store, TableEventHandlers.ancestor, evt.pageY);
+            captureRowHeight(TableEventHandlers.store, TableEventHandlers.ancestor, evt.pageY);
         }
 
         document.onmousemove = null;
@@ -82,6 +81,7 @@ export class TableEventHandlers extends EventHandler {
                     clickController.selectSeveral();
                 } else clickController.clear().select();
             }
+            TableEventHandlers.bindCellDataFocusCapture(evt.target);
         }
     }
 
@@ -124,11 +124,12 @@ export class TableEventHandlers extends EventHandler {
                 }
             }
         }
+        TableEventHandlers.bindCellDataFocusCapture(evt.target);
     }
 
     onInput(evt) {
-        captureCellData(DOMListener.store, evt.target);
+        TableEventHandlers.bindCellDataFocusCapture(evt.target);
     }
 }
 
-Object.assign(TableEventHandlers, StaticMixinTable(EventHandler));
+Object.assign(TableEventHandlers, StaticMixinTable);
