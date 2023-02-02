@@ -38,6 +38,12 @@ export class Reducer {
                     currentFocus: this.#action.payload.focusTargetUid
                 };
             }
+            case actionTypes.SHEET_NAME_CHANGE: {
+                return {
+                    ...this.#state,
+                    sheetName: this.#action.payload.sheetName
+                };
+            }
             default: return this.#state;
         }
     }

@@ -2,10 +2,10 @@ import { isInStorage, getFromStorage } from "@framework/services/localStorageSer
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
-import { localStorageKeys } from "./table.constants/localStorageKeys";
 import { TableSelectionController } from "./TableSelectionController";
 import { captureCellData } from "./table.utils/captureTableData";
 import { getStoredData } from "./table.utils/getStoredData";
+import { localStorageKeys } from "@/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { $ } from "@framework/CoreDOM";
 
