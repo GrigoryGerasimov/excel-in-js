@@ -4,4 +4,4 @@ import { ExcelComponent } from "@core/ExcelComponent.js";
 
 const ToolbarTemplate = createToolbarBody();
 
-export const Toolbar = new ComponentFactory(ExcelComponent, "app-toolbar", ToolbarTemplate);
+export const Toolbar = new ComponentFactory(ExcelComponent, "app-toolbar", ToolbarTemplate, "Toolbar", ["click"]);
