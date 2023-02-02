@@ -1,7 +1,7 @@
-import { localStorageKeys } from "@/app/class.components/Table/table.constants/localStorageKeys";
 import { setIntoStorage, getFromStorage } from "@framework/services/localStorageService";
 import { Excel, Header, Toolbar, Formulabar, Table } from "@/app/class.components";
 import { Reducer } from "@framework/redux/reducers/Reducer";
+import { localStorageKeys } from "@/localStorageKeys";
 import { Store } from "@framework/redux/Store";
 import "./assets/scss/app.scss";
 
@@ -10,7 +10,8 @@ const initialState = {
     rowSize: {},
     cellData: {},
     currentText: "",
-    currentFocus: ""
+    currentFocus: "",
+    sheetName: "New Sheet"
 };
 
 const store = new Store(Reducer, getFromStorage(localStorageKeys.EXCEL_TABLE_STATE) ?? initialState);

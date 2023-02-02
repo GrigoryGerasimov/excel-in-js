@@ -1,7 +1,7 @@
 import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
-import { localStorageKeys } from "../Table/table.constants/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent.js";
+import { localStorageKeys } from "@/localStorageKeys";
 import { $ } from "@framework/CoreDOM";
 
 const FormulabarTemplate = `
