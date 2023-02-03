@@ -1,8 +1,9 @@
+import { INITIAL_TOOLBAR_STATE } from "./toolbar.constants/initialToolbarState";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { createToolbarBody } from "./toolbar.components/toolbar.body";
 import { ExcelStateComponent } from "@core/ExcelStateComponent.js";
 
-const ToolbarTemplate = createToolbarBody();
+const ToolbarTemplate = createToolbarBody(INITIAL_TOOLBAR_STATE);
 
 export const Toolbar = new ComponentFactory(ExcelStateComponent, "app-toolbar", ToolbarTemplate, "Toolbar", ["click"]);
 
@@ -10,21 +11,11 @@ const initSubscriptionInherited = Toolbar.prototype.initSubscription;
 const endSubscriptionInherited = Toolbar.prototype.endSubscription;
 
 Toolbar.prototype.prepareBeforeInit = function() {
-    const initialState = {
-        fontWeight: "normal",
-        fontStyle: "normal",
-        textDecoration: "none",
-        textAlign: "initial"
-    };
-    this.setInitialState(initialState);
+    this.setInitialState(INITIAL_TOOLBAR_STATE);
 };
 
 Toolbar.prototype.setTemplate = function() {
     return createToolbarBody(this.state);
-};
-
-Toolbar.prototype.toHTML = function() {
-    return Toolbar.prototype.setTemplate();
 };
 
 Toolbar.prototype.initSubscription = function() {
