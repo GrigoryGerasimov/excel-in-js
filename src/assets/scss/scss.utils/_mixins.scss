@@ -3,8 +3,11 @@
     height: $size;
     margin-left: $margin;
     cursor: pointer;
-    &:active, &:hover {
+    &:hover {
         color: $icon-color;
+    }
+    &:active {
+        color: map.get($theme-color, "primary");
     }
 }
 
