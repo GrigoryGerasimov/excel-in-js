@@ -10,6 +10,7 @@ const initialState = {
     rowSize: {},
     cellData: {},
     cellStyles: {},
+    currentStyles: {},
     currentText: "",
     currentFocus: "",
     sheetName: "New Sheet"

@@ -1,4 +1,4 @@
-import { applyColWidth, applyRowHeight, applyCellData } from "./applyTableData";
+import { applyColWidth, applyRowHeight, applyCellData, applyCellStyles } from "./applyTableData";
 
 export const getStoredData = ({ data, dataset, coreElem }) => {
     const dataKeys = Object.keys(data);
@@ -8,7 +8,9 @@ export const getStoredData = ({ data, dataset, coreElem }) => {
             switch (dataset) {
                 case "colcode": return applyColWidth(elem, data[key]);
                 case "rowcode": return applyRowHeight(elem, data[key]);
-                case "uid": return applyCellData(elem, data[key]);
+                case "uid": {
+                    return typeof data[key] === "object" ? applyCellStyles(elem, data[key]) : applyCellData(elem, data[key]);
+                }
             }
         });
     }
