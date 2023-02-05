@@ -28,10 +28,6 @@ Formulabar.prototype.initSubscription = function() {
 
     Formulabar.store.subscribe(setFormulabarInputFieldText.bind(Formulabar.store));
 
-    this.unsubscribers.push(Formulabar.emitter.subscribe("tablecell/select", text => {
-        setFormulabarInputFieldText(text);
-    }));
-
     function setFormulabarInputFieldText(text) {
         $(formulabarInputField).pText = text ?? this.getState().currentText;
     }

@@ -1,5 +1,5 @@
+import { captureCellData, captureFocus, captureCellStyles } from "../table.utils/captureTableData";
 import { cachingWrapperDOM } from "@framework/utils/decorator/cachingWrapperDOM";
-import { captureCellData, captureFocus } from "../table.utils/captureTableData";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
 export const StaticMixinTable = {
@@ -39,8 +39,9 @@ export const StaticMixinTable = {
             resizeStyles
         });
     },
-    bindCellDataFocusCapture(target) {
+    captureCell(target) {
         captureCellData(this.store, target);
+        captureCellStyles(this.store, target);
         captureFocus(this.store, target);
     }
 };

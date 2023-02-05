@@ -79,9 +79,11 @@ export class TableEventHandlers extends EventHandler {
                     clickController.clear().selectGroup(selectedElems);
                 } else if (evt.ctrlKey) {
                     clickController.selectSeveral();
-                } else clickController.clear().select();
+                } else {
+                    clickController.clear().select();
+                }
             }
-            TableEventHandlers.bindCellDataFocusCapture(evt.target);
+            TableEventHandlers.captureCell(evt.target);
         }
     }
 
@@ -124,11 +126,11 @@ export class TableEventHandlers extends EventHandler {
                 }
             }
         }
-        TableEventHandlers.bindCellDataFocusCapture(evt.target);
+        TableEventHandlers.captureCell(evt.target);
     }
 
     onInput(evt) {
-        TableEventHandlers.bindCellDataFocusCapture(evt.target);
+        TableEventHandlers.captureCell(evt.target);
     }
 }
 
