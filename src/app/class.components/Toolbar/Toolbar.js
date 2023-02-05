@@ -1,17 +1,22 @@
+import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { INITIAL_TOOLBAR_STATE } from "./toolbar.constants/initialToolbarState";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { createToolbarBody } from "./toolbar.components/toolbar.body";
 import { ExcelStateComponent } from "@core/ExcelStateComponent.js";
+import { localStorageKeys } from "@/localStorageKeys";
 
 const ToolbarTemplate = createToolbarBody(INITIAL_TOOLBAR_STATE);
 
-export const Toolbar = new ComponentFactory(ExcelStateComponent, "app-toolbar", ToolbarTemplate, "Toolbar", ["click"]);
+export const Toolbar = new ComponentFactory(ExcelStateComponent, "app-toolbar", ToolbarTemplate, "Toolbar", ["click"], ["currentStyles"]);
 
 const initSubscriptionInherited = Toolbar.prototype.initSubscription;
 const endSubscriptionInherited = Toolbar.prototype.endSubscription;
 
 Toolbar.prototype.prepareBeforeInit = function() {
-    this.setInitialState(INITIAL_TOOLBAR_STATE);
+    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
+        const { currentStyles } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+        this.setInitialState(currentStyles);
+    } else this.setInitialState(INITIAL_TOOLBAR_STATE);
 };
 
 Toolbar.prototype.setTemplate = function() {
@@ -26,4 +31,8 @@ Toolbar.prototype.initSubscription = function() {
 
 Toolbar.prototype.endSubscription = function() {
     endSubscriptionInherited.apply(this, arguments);
+};
+
+Toolbar.prototype.componentPropsUpdated = function({ currentStyles }) {
+    this.setUpdatedState(currentStyles);
 };

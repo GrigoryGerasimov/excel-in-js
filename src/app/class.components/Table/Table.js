@@ -1,5 +1,5 @@
+import { captureCellData, captureCellStyles, captureCurrentStyles } from "./table.utils/captureTableData";
 import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
-import { captureCellData, captureCellStyles } from "./table.utils/captureTableData";
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
@@ -22,10 +22,11 @@ Table.prototype.initSubscription = function() {
     let currentTargetUid;
 
     if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
-        const { colSize, rowSize, cellData, currentFocus } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+        const { colSize, rowSize, cellData, cellStyles, currentFocus } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
         getStoredData({ data: colSize, dataset: "colcode", coreElem: this.$rootElem });
         getStoredData({ data: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
         getStoredData({ data: cellData, dataset: "uid", coreElem: this.$rootElem });
+        getStoredData({ data: cellStyles, dataset: "uid", coreElem: this.$rootElem });
         currentTargetUid = currentFocus;
     }
 
@@ -45,13 +46,20 @@ Table.prototype.initSubscription = function() {
     this.unsubscribers.push(Table.emitter.subscribe("toolbar/input", params => {
         this.$rootElem.findSome(`[class$="selected"]`).forEach(elem => {
             $(elem).css(...params);
+            captureCellStyles(Table.store, elem);
             if (elem.children) {
-                elem.children.forEach(child => {
-                    if (child.dataset.type === "rowcode" || child.dataset.type === "colcode") $(child).css(...params);
-                });
+                setChildrenStyles(elem, "[data-rowcode]");
+                setChildrenStyles(elem, "[data-colcode]");
             }
         });
-        captureCellStyles(Table.store, TableSelectionController.currentTarget);
+        captureCurrentStyles(Table.store, TableSelectionController.currentTarget);
+
+        function setChildrenStyles(target, selector) {
+            $(target).findSome(selector).forEach(child => {
+                $(child).css(...params);
+                captureCellStyles(Table.store, child);
+            });
+        }
     }));
 };
 

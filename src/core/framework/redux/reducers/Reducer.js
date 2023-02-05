@@ -44,10 +44,16 @@ export class Reducer {
                     sheetName: this.#action.payload.sheetName
                 };
             }
+            case actionTypes.CELL_CURRENT_STYLES_CHANGE: {
+                return {
+                    ...this.#state,
+                    currentStyles: this.#action.payload.currentStyles
+                };
+            }
             case actionTypes.CELL_STYLES_CHANGE: {
                 return {
                     ...this.#state,
-                    cellStyles: this.#action.payload.cellStyles
+                    cellStyles: this.addNewProps(this.#state.cellStyles, this.#action.payload.uid, this.#action.payload.styles)
                 };
             }
             default: return this.#state;
