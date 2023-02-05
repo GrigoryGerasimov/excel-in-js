@@ -7,7 +7,7 @@ export class ToolbarEventHandlers extends EventHandler {
             const params = evt.target.dataset.value ? JSON.parse(evt.target.dataset.value) : JSON.parse($(evt.target).ancestor("[data-value]").parent.dataset.value);
             for (const paramKey in params) {
                 if (params.hasOwnProperty(paramKey)) {
-                    ToolbarEventHandlers.emitter.emit("toolbarEventHandler/input", { [paramKey]: params[paramKey] });
+                    ToolbarEventHandlers.emitter.emit("toolbar/input", { [paramKey]: params[paramKey] });
                 }
             }
         }

@@ -21,7 +21,7 @@ Toolbar.prototype.setTemplate = function() {
 Toolbar.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
 
-    this.unsubscribers.push(Toolbar.emitter.subscribe("toolbarEventHandler/input", params => this.setUpdatedState(...params)));
+    this.unsubscribers.push(Toolbar.emitter.subscribe("toolbar/input", params => this.setUpdatedState(...params)));
 };
 
 Toolbar.prototype.endSubscription = function() {

@@ -1,9 +1,9 @@
 import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
+import { captureCellData, captureCellStyles } from "./table.utils/captureTableData";
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
 import { TableSelectionController } from "./TableSelectionController";
-import { captureCellData } from "./table.utils/captureTableData";
 import { getStoredData } from "./table.utils/getStoredData";
 import { localStorageKeys } from "@/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent";
@@ -40,6 +40,18 @@ Table.prototype.initSubscription = function() {
 
     this.unsubscribers.push(Table.emitter.subscribe("formulabar/focus", () => {
         $(TableSelectionController.currentTarget).setFocus();
+    }));
+
+    this.unsubscribers.push(Table.emitter.subscribe("toolbar/input", params => {
+        this.$rootElem.findSome(`[class$="selected"]`).forEach(elem => {
+            $(elem).css(...params);
+            if (elem.children) {
+                elem.children.forEach(child => {
+                    if (child.dataset.type === "rowcode" || child.dataset.type === "colcode") $(child).css(...params);
+                });
+            }
+        });
+        captureCellStyles(Table.store, TableSelectionController.currentTarget);
     }));
 };
 
