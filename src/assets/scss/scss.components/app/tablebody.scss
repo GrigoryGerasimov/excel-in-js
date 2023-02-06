@@ -40,6 +40,9 @@
             @include selected-state();
         }
     }
+    &__col {
+        text-align: initial;
+    }
     &__col-head {
         background-color: map.get($theme-color, "contrast");
     }

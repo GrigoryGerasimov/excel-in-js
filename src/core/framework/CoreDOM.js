@@ -216,6 +216,14 @@ class CoreDOM {
         this.#child.tagName.toLowerCase() === "input" ? this.#child.value = text : this.#child.textContent = text;
         return this;
     }
+
+    attr(attribute, value, isParent = true) {
+        if (!attribute) new ErrorDOM("Please provide an attribute").throw();
+        const elem = isParent ? this.#parent : this.child;
+        if (!value) return elem.getAttribute(attribute);
+        elem.setAttribute(attribute, value);
+        return this;
+    }
 }
 
 export const $ = selector => new CoreDOM(selector);

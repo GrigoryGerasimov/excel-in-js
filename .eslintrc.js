@@ -20,6 +20,7 @@ module.exports = {
         "no-setter-return": ["off"],
         "no-useless-constructor": ["off"],
         "no-extend-native": ["off"],
-        "no-prototype-builtins": ["off"]
+        "no-prototype-builtins": ["off"],
+        "no-new-func": ["off"]
     }
 };

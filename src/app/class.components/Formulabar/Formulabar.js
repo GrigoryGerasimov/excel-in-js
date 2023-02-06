@@ -11,7 +11,7 @@ const FormulabarTemplate = `
 </div>
 `;
 
-export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate, "Formulabar", ["input", "keydown"], ["currentText"]);
+export const Formulabar = new ComponentFactory(ExcelComponent, "app-formulabar", FormulabarTemplate, "Formulabar", ["input", "keydown"], ["currentValue"]);
 
 const initSubscriptionInherited = Formulabar.prototype.initSubscription;
 const endSubscriptionInherited = Formulabar.prototype.endSubscription;
@@ -22,14 +22,14 @@ Formulabar.prototype.initSubscription = function() {
     const formulabarInputField = this.$rootElem.findOne(`[data-id="formula-text"]`);
 
     if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
-        const { currentText } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
-        setFormulabarInputFieldText(currentText);
+        const { currentValue } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+        setFormulabarInputFieldText(currentValue);
     }
 
     Formulabar.store.subscribe(setFormulabarInputFieldText.bind(Formulabar.store));
 
-    function setFormulabarInputFieldText(text) {
-        $(formulabarInputField).pText = text ?? this.getState().currentText;
+    function setFormulabarInputFieldText(value) {
+        $(formulabarInputField).pText = value ?? this.getState().currentValue;
     }
 };
 
@@ -37,6 +37,6 @@ Formulabar.prototype.endSubscription = function() {
     endSubscriptionInherited.apply(this, arguments);
 };
 
-Formulabar.prototype.componentPropsUpdated = function({ currentText }) {
-    $(this.$rootElem.findOne(`[data-id="formula-text"]`)).pText = currentText;
+Formulabar.prototype.componentPropsUpdated = function({ currentValue }) {
+    $(this.$rootElem.findOne(`[data-id="formula-text"]`)).pText = currentValue;
 };
