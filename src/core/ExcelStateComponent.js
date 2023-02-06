@@ -12,7 +12,6 @@ export class ExcelStateComponent extends ExcelComponent {
 
     setTemplate() {
         new ErrorDOM("Please note that the method setTemplate in class ExcelStateComponent is an abstract one. Therefore, you are strongly requested to please override the same method in any child class!").throw();
-        return JSON.stringify(this.state);
     }
 
     setInitialState(initialState = {}) {
