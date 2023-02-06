@@ -1,5 +1,5 @@
 import { getEventMethodName } from "@framework/utils/namings/getEventMethodName";
-import { DEBOUNCE_MS } from "@/app/utils/constants/app.constants";
+import { DEBOUNCE_TIMELAPSE_LARGER } from "@/app/utils/constants/app.constants";
 import { debounce } from "@framework/utils/debounce/debounce";
 
 export class EventHandler {
@@ -12,7 +12,7 @@ export class EventHandler {
         EventHandler._self = context || null;
         EventHandler._emitter = emitter || {};
         EventHandler._store = store || {};
-        this.handleEvent = debounce(this.handleEvent.bind(this), DEBOUNCE_MS);
+        this[this.#handlerName] = this.#handlerName === "onInput" ? debounce(this[this.#handlerName].bind(this), DEBOUNCE_TIMELAPSE_LARGER) : this[this.#handlerName].bind(this);
     }
 
     static get self() {

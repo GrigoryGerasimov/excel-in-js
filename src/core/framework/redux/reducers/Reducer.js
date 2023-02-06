@@ -29,7 +29,8 @@ export class Reducer {
                 return {
                     ...this.#state,
                     cellData: this.addNewProps(this.#state.cellData, this.#action.payload.uid, this.#action.payload.input),
-                    currentText: this.#action.payload.input
+                    currentText: this.#action.payload.input,
+                    currentValue: this.#action.payload.value
                 };
             }
             case actionTypes.TABLE_FOCUS_CAPTURE: {
@@ -54,6 +55,12 @@ export class Reducer {
                 return {
                     ...this.#state,
                     cellStyles: this.addNewProps(this.#state.cellStyles, this.#action.payload.uid, this.#action.payload.styles)
+                };
+            }
+            case actionTypes.CELL_VALUE_CHANGE: {
+                return {
+                    ...this.#state,
+                    cellValue: this.addNewProps(this.#state.cellValue, this.#action.payload.uid, this.#action.payload.value)
                 };
             }
             default: return this.#state;

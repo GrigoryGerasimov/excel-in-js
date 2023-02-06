@@ -1,4 +1,4 @@
-import { captureCellData, captureFocus, captureCellStyles, captureCurrentStyles } from "../table.utils/captureTableData";
+import { captureCellData, captureFocus, captureCellStyles, captureCellValue, captureCurrentStyles } from "../table.utils/captureTableData";
 import { cachingWrapperDOM } from "@framework/utils/decorator/cachingWrapperDOM";
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
@@ -42,6 +42,7 @@ export const StaticMixinTable = {
     captureCell(target) {
         captureCellData(this.store, target);
         captureCellStyles(this.store, target);
+        captureCellValue(this.store, target);
         captureCurrentStyles(this.store, target);
         captureFocus(this.store, target);
     }
