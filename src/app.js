@@ -4,6 +4,7 @@ import { Excel, Header, Toolbar, Formulabar, Table } from "@/app/class.component
 import { debounce } from "@framework/utils/debounce/debounce";
 import { Reducer } from "@framework/redux/reducers/Reducer";
 import { localStorageKeys } from "@/localStorageKeys";
+import { Router } from "@core/routes/routers/Router";
 import { Store } from "@framework/redux/Store";
 import "./assets/scss/app.scss";
 
@@ -12,6 +13,10 @@ const store = new Store(Reducer, getFromStorage(localStorageKeys.EXCEL_TABLE_STA
 const debouncedToStorage = debounce(toStorage.bind(store), DEBOUNCE_TIMELAPSE_REGULAR);
 
 store.subscribe(debouncedToStorage);
+
+const router = new Router("#root", {});
+
+console.log(router);
 
 const app = new Excel("#root", {
     components: [Header, Toolbar, Formulabar, Table],
