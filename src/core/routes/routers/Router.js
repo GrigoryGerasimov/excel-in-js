@@ -11,6 +11,7 @@ export class Router {
 
     init() {
         window.addEventListener("hashchange", this.changeRoutes);
+        this.changeRoutes();
     }
 
     end() {
@@ -18,6 +19,6 @@ export class Router {
     }
 
     changeRoutes() {
-        console.log(ActionRouter.path);
+        console.log(ActionRouter.path, ActionRouter.param);
     }
 }
