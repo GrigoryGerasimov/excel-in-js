@@ -1,0 +1,18 @@
+@use "sass:map";
+
+@import "~normalize.css";
+
+@import "scss.utils/variables";
+@import "scss.utils/mixins";
+
+*, * + * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Bahnschrift", sans-serif;
+    font-size: map.get($txt-size, "regular");
+    color: $txt-color;
+}

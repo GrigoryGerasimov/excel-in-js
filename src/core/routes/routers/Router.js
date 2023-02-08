@@ -19,14 +19,21 @@ export class Router {
     }
 
     definePage() {
+        if (!ActionRouter.path) {
+            return this.fixPage("dashboard");
+        }
         try {
             const Page = this.routes[ActionRouter.path];
             const currentPage = new Page(this.$selector);
             currentPage.createRoot();
         } catch (err) {
-            new this.routes.dashboard.prototype.constructor(this.$selector).createRoot();
+            this.fixPage(404);
             new ErrorDOM(`Oops! Unfortunately, you are facing a routing issue. Further details here: ${err.message}. Most probably, the page you are looking for does not exist. Please kindly re-check the name of the requested page and try again.`).throw();
         }
+    }
+
+    fixPage(pageKey) {
+        return new this.routes[pageKey].prototype.constructor(this.$selector).createRoot();
     }
 
     changeRoutes() {

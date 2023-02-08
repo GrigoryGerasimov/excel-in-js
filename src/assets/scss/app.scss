@@ -11,18 +11,6 @@
 @import "scss.components/app/tablebody.scss";
 @import "scss.components/app/footer.scss";
 
-*, *+* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Bahnschrift", sans-serif;
-    font-size: map.get($txt-size, "regular");
-    color: $txt-color;
-}
-
 .table-container {
     width: 100%;
     height: 700px;
