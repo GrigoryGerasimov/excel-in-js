@@ -1,11 +1,10 @@
 export class ActionRouter {
-    constructor() {}
-
     static get path() {
-        return window.location;
+        return window.location.hash.slice(1);
     }
 
     static get param() {
-        return window.location.hash.slice(1);
+        const parsedPath = ActionRouter.path.split("/");
+        return parsedPath[parsedPath.length - 1];
     }
 }
