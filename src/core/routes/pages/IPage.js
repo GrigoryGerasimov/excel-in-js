@@ -1,7 +1,9 @@
 import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
 export class IPage {
-    constructor() {}
+    constructor($root) {
+        this.$pageRoot = $root;
+    }
 
     createRoot() {
         new ErrorDOM("Please note that the method createRoot in an interface-like class Page is an abstract one. Therefore, you are strongly requested to please override the same method in any child class!").throw();
