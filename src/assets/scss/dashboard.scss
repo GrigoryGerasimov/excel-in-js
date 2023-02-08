@@ -9,18 +9,6 @@
 @import "scss.components/dashboard/toolbar.scss";
 @import "scss.components/dashboard/tablebody.scss";
 
-*, * + * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Bahnschrift", sans-serif;
-    font-size: map.get($txt-size, "regular");
-    color: $txt-color;
-}
-
 .dashboard {
     width: 100%;
     height: 700px;
