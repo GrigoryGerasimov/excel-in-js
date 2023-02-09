@@ -1,5 +1,5 @@
+import { IPage } from "./interfaces/IPage";
 import { $ } from "@framework/CoreDOM";
-import { IPage } from "./IPage";
 import "@/assets/scss/404.scss";
 
 export class PageNotFound extends IPage {

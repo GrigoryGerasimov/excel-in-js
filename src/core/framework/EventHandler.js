@@ -7,11 +7,12 @@ export class EventHandler {
     static _self;
     static _store;
 
-    constructor(evtListener, context, emitter, store) {
+    constructor(evtListener, context, emitter, store, excelId) {
         this.#handlerName = getEventMethodName(evtListener);
         EventHandler._self = context || null;
         EventHandler._emitter = emitter || {};
         EventHandler._store = store || {};
+        EventHandler._excelId = excelId;
         this[this.#handlerName] = this.#handlerName === "onInput" ? debounce(this[this.#handlerName].bind(this), DEBOUNCE_TIMELAPSE_LARGER) : this[this.#handlerName].bind(this);
     }
 
@@ -25,6 +26,10 @@ export class EventHandler {
 
     static get store() {
         return EventHandler._store;
+    }
+
+    static get id() {
+        return EventHandler._excelId;
     }
 
     handleEvent(evt) {

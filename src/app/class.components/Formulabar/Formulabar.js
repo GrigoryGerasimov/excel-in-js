@@ -21,8 +21,8 @@ Formulabar.prototype.initSubscription = function() {
 
     const formulabarInputField = this.$rootElem.findOne(`[data-id="formula-text"]`);
 
-    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
-        const { currentValue } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+    if (isInStorage(localStorageKeys(Formulabar.id).EXCEL_TABLE_STATE)) {
+        const { currentValue } = getFromStorage(localStorageKeys(Formulabar.id).EXCEL_TABLE_STATE);
         setFormulabarInputFieldText(currentValue);
     }
 

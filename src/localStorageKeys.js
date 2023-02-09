@@ -1,3 +1,3 @@
-export const localStorageKeys = {
-    EXCEL_TABLE_STATE: "excel-table-state"
-};
+export const localStorageKeys = excelId => ({
+    EXCEL_TABLE_STATE: `excel::${excelId}`
+});

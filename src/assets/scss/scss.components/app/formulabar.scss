@@ -22,6 +22,7 @@
         height: 100%;
         padding-left: 10px;
         font-size: map.get($txt-size, "regular");
+        padding-top: calc(map.get($section-height, "formulabar") / 3);
         &:focus {
             border: none;
             outline: none;
@@ -35,5 +36,4 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: baseline;
 }

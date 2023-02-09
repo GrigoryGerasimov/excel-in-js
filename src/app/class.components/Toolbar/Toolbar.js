@@ -13,8 +13,8 @@ const initSubscriptionInherited = Toolbar.prototype.initSubscription;
 const endSubscriptionInherited = Toolbar.prototype.endSubscription;
 
 Toolbar.prototype.prepareBeforeInit = function() {
-    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
-        const { currentStyles } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+    if (isInStorage(localStorageKeys(Toolbar.id).EXCEL_TABLE_STATE)) {
+        const { currentStyles } = getFromStorage(localStorageKeys(Toolbar.id).EXCEL_TABLE_STATE);
         this.setInitialState(currentStyles);
     } else this.setInitialState(INITIAL_TOOLBAR_STATE);
 };
