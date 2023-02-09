@@ -20,6 +20,16 @@ const isInStorage = key => {
     return !!localStorage[key];
 };
 
+const getLocalStorageKeys = () => {
+    const localStorageKeys = [];
+    for (const key in localStorage) {
+        if (localStorage.hasOwnProperty(key) && /^excel::/.test(key)) {
+            localStorageKeys.push(key);
+        }
+    }
+    return localStorageKeys;
+};
+
 export {
-    setIntoStorage, getFromStorage, removeFromStorage, isInStorage
+    setIntoStorage, getFromStorage, removeFromStorage, isInStorage, getLocalStorageKeys
 };

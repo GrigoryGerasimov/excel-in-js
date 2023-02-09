@@ -6,6 +6,8 @@
     &__row {
         display: flex;
         justify-content: space-between;
+        text-decoration: none;
+        color: inherit;
         &:hover:not(:first-child) {
             background-color: map.get($theme-color, "primary");
             padding: map.get($inner-padding, "segment");

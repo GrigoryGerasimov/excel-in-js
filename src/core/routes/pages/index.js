@@ -1,3 +1,3 @@
-export { DashboardPage } from "./DashboardPage";
-export { ExcelPage } from "./ExcelPage";
+export { DashboardPage } from "./Dashboard/DashboardPage";
+export { ExcelPage } from "./Excel/ExcelPage";
 export { PageNotFound } from "./PageNotFound";

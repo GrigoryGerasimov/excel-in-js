@@ -22,8 +22,8 @@ Table.prototype.initSubscription = function() {
 
     let currentTargetUid;
 
-    if (isInStorage(localStorageKeys.EXCEL_TABLE_STATE)) {
-        const { colSize, rowSize, cellData, cellValue, cellStyles, currentFocus } = getFromStorage(localStorageKeys.EXCEL_TABLE_STATE);
+    if (isInStorage(localStorageKeys(Table.id).EXCEL_TABLE_STATE)) {
+        const { colSize, rowSize, cellData, cellValue, cellStyles, currentFocus } = getFromStorage(localStorageKeys(Table.id).EXCEL_TABLE_STATE);
         getStoredData({ type: "colsize", data: colSize, dataset: "colcode", coreElem: this.$rootElem });
         getStoredData({ type: "rowsize", data: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
         getStoredData({ type: "celldata", data: cellData, dataset: "uid", coreElem: this.$rootElem });

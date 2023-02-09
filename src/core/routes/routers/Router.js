@@ -6,6 +6,7 @@ export class Router {
     constructor($selector, routes) {
         this.$selector = $selector;
         this.routes = routes;
+        this.currentPage = null;
         this.changeRoutes = this.changeRoutes.bind(this);
     }
 
@@ -19,12 +20,12 @@ export class Router {
     }
 
     definePage() {
-        if (!ActionRouter.path) {
-            return this.fixPage("dashboard");
-        }
+        if (!ActionRouter.path) return this.fixPage("dashboard");
+        if (this.currentPage) this.currentPage.removeRoot();
         try {
-            const Page = this.routes[ActionRouter.path];
+            const Page = this.routes[ActionRouter.pathName];
             const currentPage = new Page(this.$selector);
+            this.currentPage = currentPage;
             currentPage.createRoot();
         } catch (err) {
             this.fixPage(404);
