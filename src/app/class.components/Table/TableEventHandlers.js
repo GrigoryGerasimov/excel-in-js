@@ -11,21 +11,21 @@ import { EventHandler } from "@framework/EventHandler";
 import { $ } from "@framework/CoreDOM";
 
 export class TableEventHandlers extends EventHandler {
-    onMousedown(evt) {
+    onPointerdown(evt) {
         TableEventHandlers.ancestor = initAncestor(evt.target);
-        initHandlers(["mousemove", "mouseup", "mouseover", "mouseout"], this);
+        initHandlers(["pointermove", "pointerup", "pointerover", "pointerout"], this);
     }
 
-    onMousemove(evt) {
+    onPointermove(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
             TableEventHandlers.showColResizers({
-                right: -TableEventHandlers.ancestor.computeMouseDelta(evt.pageX).mouseDifferX + "px",
+                right: -TableEventHandlers.ancestor.computePointerDelta(evt.pageX).pointerDifferX + "px",
                 opacity: "0.5",
                 bottom: "-2000px"
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             TableEventHandlers.showRowResizers({
-                bottom: -TableEventHandlers.ancestor.computeMouseDelta(evt.pageY).mouseDifferY + "px",
+                bottom: -TableEventHandlers.ancestor.computePointerDelta(evt.pageY).pointerDifferY + "px",
                 opacity: "0.5",
                 right: "-4000px"
             });
@@ -33,7 +33,7 @@ export class TableEventHandlers extends EventHandler {
         return false;
     }
 
-    onMouseup(evt) {
+    onPointerup(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
             TableEventHandlers.iterateColCellCollection(colCell => {
                 setResizedDimensions({
@@ -50,7 +50,7 @@ export class TableEventHandlers extends EventHandler {
             captureRowHeight(TableEventHandlers.store, TableEventHandlers.ancestor, evt.pageY);
         }
 
-        document.onmousemove = null;
+        document.onpointermove = null;
         TableEventHandlers.hideResizers({
             opacity: "0",
             right: "0",
@@ -59,11 +59,11 @@ export class TableEventHandlers extends EventHandler {
         TableEventHandlers.ancestor = null;
     }
 
-    onMouseover(evt) {
+    onPointerover(evt) {
         if (evt.target.dataset.resize) $(evt.target).css({ opacity: "1" });
     }
 
-    onMouseout(evt) {
+    onPointerout(evt) {
         if (evt.target.dataset.resize) $(evt.target).css({ opacity: "0" });
     }
 

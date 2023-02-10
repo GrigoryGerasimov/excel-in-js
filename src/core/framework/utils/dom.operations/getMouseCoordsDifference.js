@@ -1,5 +1,5 @@
-export const getMouseCoordsDifference = (currentState, initialState) => {
-    const mouseMovedOnX = currentState.coordX - initialState.coordX;
-    const mouseMovedOnY = currentState.coordY - initialState.coordY;
-    return { mouseMovedOnX, mouseMovedOnY };
+export const getPointerCoordsDifference = (currentState, initialState) => {
+    const pointerMovedOnX = currentState.coordX - initialState.coordX;
+    const pointerMovedOnY = currentState.coordY - initialState.coordY;
+    return { pointerMovedOnX, pointerMovedOnY };
 };
