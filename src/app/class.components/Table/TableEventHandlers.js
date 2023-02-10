@@ -12,22 +12,29 @@ import { $ } from "@framework/CoreDOM";
 
 export class TableEventHandlers extends EventHandler {
     onPointerdown(evt) {
+        evt.target.setPointerCapture(evt.pointerId);
         TableEventHandlers.ancestor = initAncestor(evt.target);
-        initHandlers(["pointermove", "pointerup", "pointerover", "pointerout"], this);
+        initHandlers(["pointermove", "pointerup", "pointerover", "pointerout", "dragstart"], this);
+    }
+
+    onDragstart() {
+        return false;
     }
 
     onPointermove(evt) {
         if (TableEventHandlers.ancestor?.parent?.hasAttribute("data-colcode")) {
             TableEventHandlers.showColResizers({
-                right: -TableEventHandlers.ancestor.computePointerDelta(evt.pageX).pointerDifferX + "px",
+                right: -TableEventHandlers.ancestor.computePointerDelta(evt.clientX).pointerDifferX + "px",
                 opacity: "0.5",
-                bottom: "-2000px"
+                bottom: "-2000px",
+                touchAction: "none"
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             TableEventHandlers.showRowResizers({
-                bottom: -TableEventHandlers.ancestor.computePointerDelta(evt.pageY).pointerDifferY + "px",
+                bottom: -TableEventHandlers.ancestor.computePointerDelta(evt.clientY).pointerDifferY + "px",
                 opacity: "0.5",
-                right: "-4000px"
+                right: "-4000px",
+                touchAction: "none"
             });
         }
         return false;
@@ -38,16 +45,16 @@ export class TableEventHandlers extends EventHandler {
             TableEventHandlers.iterateColCellCollection(colCell => {
                 setResizedDimensions({
                     target: $(colCell),
-                    resizedWidth: $(colCell).computeResizedParams(evt.pageX).resWidth
+                    resizedWidth: $(colCell).computeResizedParams(evt.clientX).resWidth
                 });
-                captureColWidth(TableEventHandlers.store, colCell, evt.pageX);
+                captureColWidth(TableEventHandlers.store, colCell, evt.clientX);
             });
         } else if (TableEventHandlers.ancestor?.parent?.dataset.type === "row") {
             setResizedDimensions({
                 target: TableEventHandlers.ancestor,
-                resizedHeight: TableEventHandlers.ancestor.computeResizedParams(evt.pageY).resHeight
+                resizedHeight: TableEventHandlers.ancestor.computeResizedParams(evt.clientY).resHeight
             });
-            captureRowHeight(TableEventHandlers.store, TableEventHandlers.ancestor, evt.pageY);
+            captureRowHeight(TableEventHandlers.store, TableEventHandlers.ancestor, evt.clientY);
         }
 
         document.onpointermove = null;
