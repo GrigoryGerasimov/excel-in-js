@@ -13,7 +13,8 @@ export class HeaderEventHandlers extends EventHandler {
         if (Object.keys(evt.target.dataset).length) {
             switch (evt.target.dataset.id) {
                 case "delete": {
-                    if (isInStorage(localStorageKeys(HeaderEventHandlers.id).EXCEL_TABLE_STATE)) {
+                    const intentionCheckPassed = confirm("Are you sure you want to remove the current Excel sheet? Please note that once you delete it, all the data will be lost. Should we proceed?");
+                    if (intentionCheckPassed && isInStorage(localStorageKeys(HeaderEventHandlers.id).EXCEL_TABLE_STATE)) {
                         removeFromStorage(localStorageKeys(HeaderEventHandlers.id).EXCEL_TABLE_STATE);
                     }
                     // falls through

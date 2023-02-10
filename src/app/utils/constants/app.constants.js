@@ -11,5 +11,6 @@ export const INITIAL_APP_STATE = {
     currentText: "",
     currentValue: "",
     currentFocus: "",
+    lastOpened: "",
     sheetName: CURRENT_SHEET_NAME
 };

@@ -1,3 +1,4 @@
+import { captureTimestamp } from "@framework/redux/actions/Action";
 import { StoreSubscriber } from "@framework/StoreSubscriber";
 import { EventEmitter } from "@framework/EventEmitter";
 import { $ } from "@framework/CoreDOM";
@@ -13,6 +14,9 @@ export class Excel {
     }
 
     render() {
+        const lastOpenedTimestamp = { lastOpened: Date.now() };
+        this.store.dispatch(captureTimestamp(lastOpenedTimestamp));
+
         const $appNode = $(this.$rootElem).createAndAppend({ tag: "div", className: "app" }).makeParent();
 
         this.components = this.components.map(Component => {

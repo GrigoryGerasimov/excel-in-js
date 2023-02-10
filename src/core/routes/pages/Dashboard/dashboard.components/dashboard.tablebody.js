@@ -1,7 +1,9 @@
 import { convertToArr } from "@framework/utils/conversions/convertToArr";
 import { CreatedSheet } from "./dashboard.createdsheet";
+import { setTableMeta } from "./dashboard.tablemeta";
 
 export const DashboardTablebody = sheetIds => {
+    const rowTitles = ["Document", "Created At", "Last Opened"];
     let body;
 
     if (!sheetIds || !sheetIds.length) {
@@ -10,8 +12,7 @@ export const DashboardTablebody = sheetIds => {
         sheetIds = convertToArr(sheetIds);
         body = `
         <div class="dashboard-tablebody__row">
-            <span class="dashboard-tablebody__head-cell">Document</span>
-            <span class="dashboard-tablebody__head-cell">Created At</span>
+        ${rowTitles.map(setTableMeta("dashboard-tablebody__head-cell")).join("")}
         </div>
         ${sheetIds.map(CreatedSheet).join("")}
         `;

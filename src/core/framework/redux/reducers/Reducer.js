@@ -63,6 +63,12 @@ export class Reducer {
                     cellValue: this.addNewProps(this.#state.cellValue, this.#action.payload.uid, this.#action.payload.value)
                 };
             }
+            case actionTypes.TIMESTAMP_CAPTURE: {
+                return {
+                    ...this.#state,
+                    lastOpened: this.#action.payload.lastOpened
+                };
+            }
             default: return this.#state;
         }
     }
