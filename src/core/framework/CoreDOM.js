@@ -1,7 +1,7 @@
-import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
-import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 import { getComputedDimensions } from "@framework/utils/dom.operations/getComputedDimensions";
 import { cachingWrapperDOM } from "@framework/utils/decorator/cachingWrapperDOM";
+import { MixinDOM } from "@framework/utils/mixins/MixinDOM";
+import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
 
 class CoreDOM {
     #parent;
