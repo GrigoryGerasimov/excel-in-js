@@ -1,15 +1,15 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { defineOptimization } = require("./webpack.utils/defineOptimization");
+const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
+const { generateFilename } = require("./webpack.utils/generateFilename");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { definePlugins } = require("./webpack.utils/definePlugins");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
-const { generateFilename } = require("./webpack.utils/generateFilename");
-const { definePlugins } = require("./webpack.utils/definePlugins");
-const { defineOptimization } = require("./webpack.utils/defineOptimization");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
-const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
+const path = require("path");
 
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
@@ -42,6 +42,7 @@ const multipleStylesheetsBundlerConfig = (env, argv) => ({
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": argv?.mode ? JSON.stringify(argv.mode) : "development"
         }),
+        new webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({
             filename: "[name].[contenthash].bundle.css"
         })
@@ -127,7 +128,8 @@ const webpackMainConfig = (env, argv) => ({
             }),
             new webpack.ids.DeterministicChunkIdsPlugin({
                 maxLength: 7
-            })
+            }),
+            new webpack.ProgressPlugin()
         ],
         [new EslintWebpackPlugin(), new BundleAnalyzerPlugin()]
     )

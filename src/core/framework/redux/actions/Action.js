@@ -14,4 +14,5 @@ export const changeCellStyles = payload => new Action(actionTypes.CELL_STYLES_CH
 export const changeCellValue = payload => new Action(actionTypes.CELL_VALUE_CHANGE, payload);
 export const changeCurrentStyles = payload => new Action(actionTypes.CELL_CURRENT_STYLES_CHANGE, payload);
 export const captureTableFocus = payload => new Action(actionTypes.TABLE_FOCUS_CAPTURE, payload);
+export const captureTimestamp = payload => new Action(actionTypes.TIMESTAMP_CAPTURE, payload);
 export const changeSheetName = payload => new Action(actionTypes.SHEET_NAME_CHANGE, payload);
