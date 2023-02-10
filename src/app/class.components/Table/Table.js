@@ -12,7 +12,7 @@ import { $ } from "@framework/CoreDOM";
 
 const TableTemplate = createTableBody();
 
-export const Table = new ComponentFactory(ExcelComponent, "app-tablebody", TableTemplate, "Table", ["mousedown", "click", "keydown", "input"], ["currentFocus"]);
+export const Table = new ComponentFactory(ExcelComponent, "app-tablebody", TableTemplate, "Table", ["pointerdown", "click", "keydown", "input"], ["currentFocus"]);
 
 const initSubscriptionInherited = Table.prototype.initSubscription;
 const endSubscriptionInherited = Table.prototype.endSubscription;

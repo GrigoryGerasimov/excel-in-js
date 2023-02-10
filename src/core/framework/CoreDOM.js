@@ -113,18 +113,18 @@ class CoreDOM {
         return getComputedDimensions(this.#parent);
     }
 
-    computeMouseDelta(initCoord) {
+    computePointerDelta(initCoord) {
         if (!initCoord) {
-            new ErrorDOM("Please provide the initial mouse coords for the resized params to be computed").throw();
+            new ErrorDOM("Please provide the initial pointer coords for the resized params to be computed").throw();
         }
-        const mouseDifferX = Math.trunc(initCoord - this.coords().computedRightCoord);
-        const mouseDifferY = Math.trunc(initCoord - this.coords().computedBottomCoord);
-        return { mouseDifferX, mouseDifferY };
+        const pointerDifferX = Math.trunc(initCoord - this.coords().computedRightCoord);
+        const pointerDifferY = Math.trunc(initCoord - this.coords().computedBottomCoord);
+        return { pointerDifferX, pointerDifferY };
     }
 
-    computeResizedParams(mouseInitCoord) {
-        const resWidth = Math.trunc(this.coords().computedWidth + this.computeMouseDelta(mouseInitCoord).mouseDifferX) + "px";
-        const resHeight = Math.trunc(this.coords().computedHeight + this.computeMouseDelta(mouseInitCoord).mouseDifferY) + "px";
+    computeResizedParams(pointerInitCoord) {
+        const resWidth = Math.trunc(this.coords().computedWidth + this.computePointerDelta(pointerInitCoord).pointerDifferX) + "px";
+        const resHeight = Math.trunc(this.coords().computedHeight + this.computePointerDelta(pointerInitCoord).pointerDifferY) + "px";
         return { resWidth, resHeight };
     }
 
