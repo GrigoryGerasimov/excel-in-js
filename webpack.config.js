@@ -129,7 +129,10 @@ const webpackMainConfig = (env, argv) => ({
             new webpack.ids.DeterministicChunkIdsPlugin({
                 maxLength: 7
             }),
-            new webpack.ProgressPlugin()
+            new webpack.ProgressPlugin(),
+            new webpack.DefinePlugin({
+                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+            })
         ],
         [new EslintWebpackPlugin(), new BundleAnalyzerPlugin()]
     )

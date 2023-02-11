@@ -75,46 +75,45 @@ export class TableEventHandlers extends EventHandler {
     }
 
     onClick(evt) {
+        TableEventHandlers.captureCell(evt.target);
+
         if (validateSelectable(evt.target)) {
             if (evt.target.dataset.rowcode) {
                 const targetRow = $(evt.target).ancestor(`[data-type="row"]`).parent;
-                new TableSelectionController(targetRow).clear().select();
+                return new TableSelectionController(targetRow).clear().select();
             } else {
                 const clickController = new TableSelectionController(evt.target);
                 if (evt.shiftKey && evt.target.dataset.uid && TableSelectionController.currentTarget.dataset.uid) {
-                    const selectedElems = getSelectableGroup(TableSelectionController.currentTarget, clickController.target, EventHandler.self.$rootElem);
-                    clickController.clear().selectGroup(selectedElems);
+                    const selectedElems = getSelectableGroup(TableSelectionController.currentTarget, clickController.target, TableEventHandlers.self.$rootElem);
+                    return clickController.clear().selectGroup(selectedElems);
                 } else if (evt.ctrlKey) {
-                    clickController.selectSeveral();
+                    return clickController.selectSeveral();
                 } else {
-                    clickController.clear().select();
+                    return clickController.clear().select();
                 }
             }
-            TableEventHandlers.captureCell(evt.target);
         }
     }
 
     onKeydown(evt) {
-        const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, EventHandler.self.$rootElem);
+        TableEventHandlers.captureCell(evt.target);
+
+        const { relatedTargetLeft, relatedTargetRight, relatedTargetUpwards, relatedTargetDownwards } = getRelatedTargets(evt.target, TableEventHandlers.self.$rootElem);
 
         if (validateSelectable(evt.target)) {
             if (!evt.target.textContent) {
                 switch (evt.key) {
                     case "ArrowLeft": {
-                        relatedTargetLeft && new TableSelectionController(relatedTargetLeft).clear().select();
-                        break;
+                        return relatedTargetLeft && new TableSelectionController(relatedTargetLeft).clear().select();
                     }
                     case "ArrowRight": {
-                        relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
-                        break;
+                        return relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
                     }
                     case "ArrowUp": {
-                        relatedTargetUpwards && new TableSelectionController(relatedTargetUpwards).clear().select();
-                        break;
+                        return relatedTargetUpwards && new TableSelectionController(relatedTargetUpwards).clear().select();
                     }
                     case "ArrowDown": {
-                        relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
-                        break;
+                        return relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
                     }
                 }
             }
@@ -122,21 +121,22 @@ export class TableEventHandlers extends EventHandler {
                 switch (evt.key) {
                     case "Tab": {
                         evt.preventDefault();
-                        relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
-                        break;
+                        return relatedTargetRight && new TableSelectionController(relatedTargetRight).clear().select();
                     }
                     case "Enter": {
                         evt.preventDefault();
-                        relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
-                        break;
+                        return relatedTargetDownwards && new TableSelectionController(relatedTargetDownwards).clear().select();
                     }
                 }
             }
         }
-        TableEventHandlers.captureCell(evt.target);
     }
 
     onInput(evt) {
+        const targetInput = $(evt.target).pText;
+        if (targetInput) {
+            $(evt.target).attr("data-state", targetInput);
+        }
         TableEventHandlers.captureCell(evt.target);
     }
 }

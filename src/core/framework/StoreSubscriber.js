@@ -20,6 +20,9 @@ export class StoreSubscriber {
                 }
             }
             this.prevState = currentState();
+            if (process.env.NODE_ENV === "development") {
+                window.redux = this.prevState;
+            }
         });
     }
 

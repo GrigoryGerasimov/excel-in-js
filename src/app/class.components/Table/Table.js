@@ -64,6 +64,15 @@ Table.prototype.initSubscription = function() {
             });
         }
     }));
+
+    this.unsubscribers.push(Table.emitter.subscribe("toolbar/undo", () => {
+        $(TableSelectionController.currentTarget).pText = "";
+    }));
+
+    this.unsubscribers.push(Table.emitter.subscribe("toolbar/redo", () => {
+        const redoValue = TableSelectionController.currentTarget.dataset?.state ? TableSelectionController.currentTarget.dataset.state : "";
+        $(TableSelectionController.currentTarget).pText = redoValue;
+    }));
 };
 
 Table.prototype.endSubscription = function() {
