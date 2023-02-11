@@ -11,11 +11,16 @@ export class Excel {
         this.excelId = excelId;
         this.emitter = new EventEmitter();
         this.storeSubscriber = new StoreSubscriber(this.store);
+        this.forbidDefaultBehaviorHandler = this.forbidDefaultBehaviorHandler.bind(this);
     }
 
     render() {
         const lastOpenedTimestamp = { lastOpened: Date.now() };
         this.store.dispatch(captureTimestamp(lastOpenedTimestamp));
+
+        if (process.env.NODE_ENV === "production") {
+            document.addEventListener("contextmenu", this.forbidDefaultBehaviorHandler, true);
+        }
 
         const $appNode = $(this.$rootElem).createAndAppend({ tag: "div", className: "app" }).makeParent();
 
@@ -32,8 +37,16 @@ export class Excel {
     }
 
     unmount() {
+        if (process.env.NODE_ENV === "production") {
+            document.removeEventListener("contextmenu", this.forbidDefaultBehaviorHandler, true);
+        }
+
         this.storeSubscriber.cancelSubscription();
 
         for (const Component of this.components) Component.endSubscription();
+    }
+
+    forbidDefaultBehaviorHandler(evt) {
+        evt.preventDefault();
     }
 }
