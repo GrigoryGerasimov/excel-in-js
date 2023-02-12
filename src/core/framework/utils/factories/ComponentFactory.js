@@ -8,8 +8,8 @@ export function ComponentFactory(parentClass, className, htmlTemplate, name, lis
             super($root, { name, listeners, subscribes });
         }
 
-        toHTML() {
-            return htmlTemplate;
+        toHTML(args) {
+            return htmlTemplate(args);
         }
 
         initSubscription() {

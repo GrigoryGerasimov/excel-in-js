@@ -1,7 +1,7 @@
 import { createTableColHeaders, createTableCell, createTableRow, colCodes, rowResizeBlock } from ".";
 import { colResizeBlock } from "./cols/table.pseudo.colResize";
 
-export const createTableBody = (rowQuantity = 25) => {
+export const createTableBody = rowQuantity => {
     const cols = rowCode => colCodes.map(colCode => createTableCell("", colCode, rowCode));
     const rows = [];
 

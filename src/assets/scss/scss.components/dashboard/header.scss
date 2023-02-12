@@ -2,6 +2,7 @@
 @import "../../scss.utils/mixins";
 
 .dashboard-header {
+    background-color: map.get($theme-color, "functional");
     height: map.get($section-height, "dashboard-header");
     position: fixed;
     top: 0;

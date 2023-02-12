@@ -5,7 +5,7 @@ import { createToolbarBody } from "./toolbar.components/toolbar.body";
 import { ExcelStateComponent } from "@core/ExcelStateComponent.js";
 import { localStorageKeys } from "@/localStorageKeys";
 
-const ToolbarTemplate = createToolbarBody(INITIAL_TOOLBAR_STATE);
+const ToolbarTemplate = createToolbarBody;
 
 export const Toolbar = new ComponentFactory(ExcelStateComponent, "app-toolbar", ToolbarTemplate, "Toolbar", ["click"], ["currentStyles"]);
 
