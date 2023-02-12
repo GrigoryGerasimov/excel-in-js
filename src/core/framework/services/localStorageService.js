@@ -30,6 +30,8 @@ const getLocalStorageKeys = () => {
     return localStorageKeys;
 };
 
+const parseLocalStorageKey = key => key.includes("::") ? key.includes("r") ? key.slice(key.lastIndexOf(":") + 1, key.lastIndexOf("r")) : key.slice(key.lastIndexOf(":") + 1) : key;
+
 export {
-    setIntoStorage, getFromStorage, removeFromStorage, isInStorage, getLocalStorageKeys
+    setIntoStorage, getFromStorage, removeFromStorage, isInStorage, getLocalStorageKeys, parseLocalStorageKey
 };

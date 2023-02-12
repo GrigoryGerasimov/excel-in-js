@@ -1,1 +1,1 @@
-export const setTableMeta = clas => data => data.__tag("span", { clas });
+export const setTableMeta = clas => (data, id) => data.__tag("span", { id, clas });

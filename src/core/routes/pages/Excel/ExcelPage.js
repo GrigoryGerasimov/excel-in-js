@@ -15,7 +15,7 @@ export class ExcelPage extends IPage {
 
     constructor($root) {
         super($root);
-        this._currentId = ActionRouter.param;
+        this._currentId = ActionRouter.param.includes("r") ? ActionRouter.param.slice(0, ActionRouter.param.lastIndexOf("r")) : ActionRouter.param;
         this.#store = new Store(Reducer, getFromStorage(localStorageKeys(this._currentId).EXCEL_TABLE_STATE) ?? { ...INITIAL_APP_STATE });
         this.#app = new Excel(this.$pageRoot, {
             components: [Header, Toolbar, Formulabar, Table],
@@ -34,8 +34,6 @@ export class ExcelPage extends IPage {
             setIntoStorage(localStorageKeys(currentId).EXCEL_TABLE_STATE, this.getState());
         }
     }
-
-    afterRender() {}
 
     removeRoot() {
         this.#app.unmount();

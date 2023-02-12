@@ -4,7 +4,7 @@ import { ExcelComponent } from "@core/ExcelComponent.js";
 import { localStorageKeys } from "@/localStorageKeys";
 import { $ } from "@framework/CoreDOM";
 
-const FormulabarTemplate = `
+const FormulabarTemplate = () => `
 <div class="formulabar-wrapper">
     <span class="app-formulabar__formula-label">fx</span>
     <div class="app-formulabar__formula-text" contenteditable spellcheck="false" data-id="formula-text"></div>

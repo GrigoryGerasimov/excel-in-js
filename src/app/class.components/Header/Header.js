@@ -3,7 +3,7 @@ import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { ExcelComponent } from "@core/ExcelComponent.js";
 import { localStorageKeys } from "@/localStorageKeys";
 
-const HeaderTemplate = `
+const HeaderTemplate = () => `
 <div class="header-wrapper">
     <input type="text" class="app-header__name" id="sheetName" name="sheetName" value="New Sheet"/>
     <div class="app-header__btn-icon-group">
