@@ -1,4 +1,4 @@
-import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
+import { ErrorDOM } from "../utils/errors/ErrorDOM";
 import { isClassReducer } from "./reducers/isClassReducer";
 import { init } from "./actions/Action";
 

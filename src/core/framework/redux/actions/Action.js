@@ -1,6 +1,6 @@
 import { actionTypes } from "./actionTypes";
 
-class Action {
+export class Action {
     constructor(type, payload) {
         this.type = type;
         this.payload = payload;
