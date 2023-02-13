@@ -7,7 +7,8 @@
                     "chrome": "108",
                     "safari": "16",
                     "edge": "108",
-                    "firefox": "108"
+                    "firefox": "108",
+                    "node": "current"
                 },
                 "useBuiltIns": "usage",
                 "corejs": "3.9.0",

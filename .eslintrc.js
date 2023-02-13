@@ -8,9 +8,11 @@ module.exports = {
     env: {
         browser: true,
         node: true,
-        es6: true
+        es6: true,
+        "jest/globals": true
     },
     extends: ["eslint:recommended", "standard"],
+    plugins: ["jest"],
     rules: {
         indent: ["error", 4, { SwitchCase: 1 }],
         semi: ["error", "always"],
