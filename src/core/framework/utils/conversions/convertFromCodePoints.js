@@ -1,4 +1,4 @@
-import { ErrorDOM } from "@framework/utils/errors/ErrorDOM";
+import { ErrorDOM } from "../errors/ErrorDOM";
 
 export const convertFromCodePoints = codePoint => {
     codePoint = typeof codePoint === "number" ? Math.trunc(codePoint) : Number(codePoint);
