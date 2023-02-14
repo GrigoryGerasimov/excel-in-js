@@ -1,3 +1,3 @@
-import { capitalize } from "@framework/utils/namings/capitalize";
+import { capitalize } from "./capitalize";
 
 export const getEventMethodName = name => `on${capitalize(name)}`;

@@ -23,6 +23,7 @@ module.exports = {
         "no-useless-constructor": ["off"],
         "no-extend-native": ["off"],
         "no-prototype-builtins": ["off"],
-        "no-new-func": ["off"]
+        "no-new-func": ["off"],
+        "no-new-wrappers": ["off"]
     }
 };
