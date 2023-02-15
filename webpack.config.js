@@ -81,7 +81,7 @@ const webpackMainConfig = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /\.s[ac]ss$/gi,
+                test: /\.s(a|c)ss$/gi,
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
