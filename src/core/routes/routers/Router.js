@@ -29,7 +29,7 @@ export class Router {
             currentPage.createRoot();
         } catch (err) {
             this.fixPage(404);
-            new ErrorDOM(`Oops! Unfortunately, you are facing a routing issue. Further details here: ${err.message}. Most probably, the page you are looking for does not exist. Please kindly re-check the name of the requested page and try again.`).throw();
+            new ErrorDOM(`Oops! Unfortunately, you are facing a routing issue. Further details here: ${err.message} ${err.stack}. Most probably, the page you are looking for does not exist. Please kindly re-check the name of the requested page and try again.`).throw();
         }
     }
 

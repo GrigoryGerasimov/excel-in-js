@@ -9,8 +9,8 @@ export class IPage {
         new ErrorDOM("Please note that the method createRoot in an interface-like class Page is an abstract one. Therefore, you are strongly requested to please override the same method in any child class!").throw();
     }
 
-    afterRender() {
-        new ErrorDOM("Please note that the method afterRender in an interface-like class Page is an abstract one. Therefore, you are strongly requested to please override the same method in any child class!").throw();
+    onRender() {
+        new ErrorDOM("Please note that the method onRender in an interface-like class Page is an abstract one. Therefore, you are strongly requested to please override the same method in any child class!").throw();
     }
 
     removeRoot() {

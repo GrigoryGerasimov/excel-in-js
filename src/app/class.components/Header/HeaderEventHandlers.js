@@ -1,7 +1,6 @@
-import { isInStorage, removeFromStorage } from "@framework/services/localStorageService";
 import { changeSheetName } from "@framework/redux/actions/Action";
+import { localStorageConstants } from "@/localStorageKeys";
 import { EventHandler } from "@framework/EventHandler";
-import { localStorageKeys } from "@/localStorageKeys";
 
 export class HeaderEventHandlers extends EventHandler {
     onInput(evt) {
@@ -14,8 +13,8 @@ export class HeaderEventHandlers extends EventHandler {
             switch (evt.target.dataset.id) {
                 case "delete": {
                     const intentionCheckPassed = confirm("Are you sure you want to remove the current Excel sheet? Please note that once you delete it, all the data will be lost. Should we proceed?");
-                    if (intentionCheckPassed && isInStorage(localStorageKeys(HeaderEventHandlers.id).EXCEL_TABLE_STATE)) {
-                        removeFromStorage(localStorageKeys(HeaderEventHandlers.id).EXCEL_TABLE_STATE);
+                    if (intentionCheckPassed) {
+                        HeaderEventHandlers.processor.remove(localStorageConstants.EXCEL_TABLE_STATE);
                     }
                     // falls through
                 }

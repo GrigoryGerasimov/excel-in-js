@@ -11,7 +11,7 @@ export class PageNotFound extends IPage {
         $(this.$pageRoot).createAndAppend({ tag: "div", className: "notfound" }).cHTML = "<p>Oops, the page you are looking for could not be found...</p>";
     }
 
-    afterRender() {}
+    onRender() {}
 
     removeRoot() {}
 }
