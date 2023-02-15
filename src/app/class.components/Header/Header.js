@@ -1,7 +1,6 @@
-import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
+import { localStorageConstants } from "@/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent.js";
-import { localStorageKeys } from "@/localStorageKeys";
 
 const HeaderTemplate = () => `
 <div class="header-wrapper">
@@ -25,9 +24,8 @@ const endSubscriptionInherited = Header.prototype.endSubscription;
 Header.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
 
-    if (isInStorage(localStorageKeys(Header.id).EXCEL_TABLE_STATE)) {
-        this.$rootElem.findOne("#sheetName").value = getFromStorage(localStorageKeys(Header.id).EXCEL_TABLE_STATE).sheetName;
-    }
+    const sheetName = Header.processor.get(localStorageConstants.EXCEL_TABLE_STATE)?.sheetName;
+    if (sheetName) this.$rootElem.findOne("#sheetName").value = sheetName;
 };
 
 Header.prototype.endSubscription = function() {

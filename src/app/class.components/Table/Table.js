@@ -1,12 +1,11 @@
 import { captureCellData, captureCellStyles, captureCellValue, captureCurrentStyles } from "./table.utils/captureTableData";
-import { isInStorage, getFromStorage } from "@framework/services/localStorageService";
 import { createTableBody } from "@/app/class.components/Table/table.components";
 import { ComponentFactory } from "@framework/utils/factories/ComponentFactory";
 import { INITIAL_CELL_SELECTOR } from "./table.constants/InitialCellSelector";
 import { TableSelectionController } from "./TableSelectionController";
 import { getStoredData } from "./table.utils/getStoredData";
+import { localStorageConstants } from "@/localStorageKeys";
 import { parseFormula } from "./table.utils/parseFormula";
-import { localStorageKeys } from "@/localStorageKeys";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { $ } from "@framework/CoreDOM";
 
@@ -20,19 +19,16 @@ const endSubscriptionInherited = Table.prototype.endSubscription;
 Table.prototype.initSubscription = function() {
     initSubscriptionInherited.apply(this, arguments);
 
-    let currentTargetUid;
-
-    if (isInStorage(localStorageKeys(Table.id).EXCEL_TABLE_STATE)) {
-        const { colSize, rowSize, cellData, cellValue, cellStyles, currentFocus } = getFromStorage(localStorageKeys(Table.id).EXCEL_TABLE_STATE);
+    if (Table.processor.get(localStorageConstants.EXCEL_TABLE_STATE)) {
+        const { colSize, rowSize, cellData, cellValue, cellStyles } = Table.processor.get(localStorageConstants.EXCEL_TABLE_STATE);
         getStoredData({ type: "colsize", data: colSize, dataset: "colcode", coreElem: this.$rootElem });
         getStoredData({ type: "rowsize", data: rowSize, dataset: "rowcode", coreElem: this.$rootElem });
         getStoredData({ type: "celldata", data: cellData, dataset: "uid", coreElem: this.$rootElem });
         getStoredData({ type: "cellstyles", data: cellStyles, dataset: "uid", coreElem: this.$rootElem });
         getStoredData({ type: "cellvalue", data: cellValue, dataset: "uid", coreElem: this.$rootElem });
-        currentTargetUid = currentFocus;
     }
 
-    TableSelectionController.currentTarget = this.$rootElem.findOne(`[data-uid="${currentTargetUid}"]`) ?? this.$rootElem.findOne(INITIAL_CELL_SELECTOR);
+    TableSelectionController.currentTarget = this.$rootElem.findOne(`[data-uid="${Table.processor.get(localStorageConstants.EXCEL_TABLE_STATE)?.currentFocus}"]`) ?? this.$rootElem.findOne(INITIAL_CELL_SELECTOR);
 
     new TableSelectionController(TableSelectionController.currentTarget).select();
 

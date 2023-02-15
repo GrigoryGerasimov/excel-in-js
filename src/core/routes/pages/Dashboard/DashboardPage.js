@@ -13,7 +13,7 @@ export class DashboardPage extends IPage {
         super($root);
         this._excelUid = Date.now().toString();
         this._excelIds = getLocalStorageKeys().map(parseLocalStorageKey);
-        this.afterRender = dynamic(this.afterRender.bind(this));
+        this.onRender = dynamic(this.onRender.bind(this));
         this.interval = null;
         this._optionsBlock = [
             {
@@ -44,10 +44,10 @@ export class DashboardPage extends IPage {
             ${DashboardTablebody(this._excelIds)}            
         `;
 
-        this.interval = this.afterRender();
+        this.interval = this.onRender();
     }
 
-    afterRender() {
+    onRender() {
         this._excelIds.forEach(this.reRenderDatetime);
     }
 

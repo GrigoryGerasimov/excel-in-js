@@ -13,7 +13,7 @@ describe("Testing Store which should:", () => {
     test("__init check__", () => {
         expect(true).toBe(true);
         expect({ num: 1 }).toEqual({ num: 1 });
-        expect(() => { throw new Error("error") }).toThrow("error");
+        expect(() => { throw new Error("error"); }).toThrow("error");
     });
 
     test("be defined", () => {
@@ -45,16 +45,18 @@ describe("Testing Store which should:", () => {
         expect(storeCl.getState()).toEqual({ count: -1 });
     });
 
-    test("have correct subscribe method (storeFn)", () => {
+    test("have correct subscribe and unsubscribe method (storeFn)", () => {
         const unsubFn = storeFn.subscribe(testFn);
         unsubFn();
-        expect(() => storeFn.dispatch({ type: "test "})).toThrow(/There are no listeners to dispatch/);
-    })
+        storeFn.dispatch({ type: "test " });
+        expect(testFn).not.toHaveBeenCalled();
+    });
 
     test("have correct subscribe method (storeCl)", () => {
         const unsubCl = storeCl.subscribe(testFn);
         unsubCl();
-        expect(() => storeCl.dispatch({ type: "test" })).toThrow(/There are no listeners to dispatch/);
+        storeFn.dispatch({ type: "test " });
+        expect(testFn.mock.calls.length).toBe(0);
     });
 
     afterEach(() => {

@@ -27,7 +27,6 @@ export class Store {
 
     dispatch(action) {
         this.#state = isClassReducer(this.#reducer) ? new this.#reducer(this.#state, action) : this.#reducer(this.#state, action);
-        if (!this.#listeners.length) new ErrorDOM("There are no listeners to dispatch").throw();
-        this.#listeners.forEach(listener => listener());
+        if (this.#listeners.length) this.#listeners.forEach(listener => listener());
     }
 }

@@ -2,15 +2,14 @@ import { getEventMethodName } from "@framework/utils/namings/getEventMethodName"
 
 export class EventHandler {
     #handlerName;
-    static _self;
-    static _store;
 
-    constructor(evtListener, context, emitter, store, excelId) {
+    constructor(evtListener, context, emitter, store, excelId, processor) {
         this.#handlerName = getEventMethodName(evtListener);
         EventHandler._self = context || null;
         EventHandler._emitter = emitter || {};
         EventHandler._store = store || {};
         EventHandler._excelId = excelId;
+        EventHandler._processor = processor;
     }
 
     static get self() {
@@ -27,6 +26,10 @@ export class EventHandler {
 
     static get id() {
         return EventHandler._excelId;
+    }
+
+    static get processor() {
+        return EventHandler._processor;
     }
 
     handleEvent(evt) {
